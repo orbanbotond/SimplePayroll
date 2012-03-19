@@ -1,0 +1,2 @@
+class WeeklySchedule
+end

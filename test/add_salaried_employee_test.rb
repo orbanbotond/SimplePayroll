@@ -10,6 +10,7 @@ describe AddSalariedEmployee do
 
     e = PayrollDatabase.get_employee(empId)
     e.name.must_equal "Bob"
+    e.address.must_equal "Home"
 
     pc = e.classification
     pc.salary.must_be_close_to 1100, 0.001
