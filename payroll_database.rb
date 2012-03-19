@@ -11,4 +11,8 @@ class PayrollDatabase
   def self.add_employee(id, employee)
     employees[id] = employee
   end
+
+  def self.delete_employee(id)
+    employees.delete(id)
+  end
 end
