@@ -1,0 +1,2 @@
+class HoldMethod
+end

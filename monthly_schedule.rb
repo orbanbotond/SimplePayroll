@@ -1,0 +1,2 @@
+class MonthlySchedule
+end
