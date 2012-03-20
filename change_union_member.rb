@@ -9,9 +9,7 @@ class ChangeUnionMember < ChangeAffiliation
   end
 
   def make_affiliation
-    uf = UnionAffiliation.new
-    uf.dues = @dues
-    uf
+    UnionAffiliation.new(@memberId, @dues)
   end
 
   def record_membership(employee)

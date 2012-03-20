@@ -13,10 +13,10 @@ describe AddServiceCharge do
     e = PayrollDatabase.get_employee(empId)
     e.wont_be_nil
 
-    af = UnionAffiliation.new
+    memberId = 86
+    af = UnionAffiliation.new(memberId, 10.0)
     e.affiliation = af
 
-    memberId = 86
     PayrollDatabase.add_union_member(memberId, e)
 
     sct = AddServiceCharge.new(memberId, Date.new(2005, 8, 8), 12.95)

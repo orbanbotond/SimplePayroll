@@ -1,8 +1,10 @@
 class UnionAffiliation
-  attr_accessor :dues
+  attr_reader :dues, :memberId
 
-  def initialize
+  def initialize(memberId, dues)
     @service_charges = {}
+    @dues = dues
+    @memberId = memberId
   end
 
   def get_service_charge(date)
