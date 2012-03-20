@@ -1,6 +1,6 @@
 class Employee
-  attr_reader :name, :empid, :address
-  attr_accessor :classification, :schedule, :payment_method
+  attr_reader :empid
+  attr_accessor :classification, :schedule, :payment_method, :affiliation, :name, :address
 
   def initialize(empid, name, address)
     @empid = empid
