@@ -4,4 +4,8 @@ class SalariedClassification
   def initialize(salary)
     @salary = salary
   end
+
+  def calculate_pay(pc)
+    @salary
+  end
 end
