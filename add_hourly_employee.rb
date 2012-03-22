@@ -3,8 +3,8 @@ require_relative "hourly_classification"
 require_relative "weekly_schedule"
 
 class AddHourlyEmployee < AddEmployee
-  def initialize(id, name, address, rate)
-    super(id, name, address)
+  def initialize(id, name, address, rate, database)
+    super(id, name, address, database)
     @rate = rate
   end
 

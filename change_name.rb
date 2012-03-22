@@ -1,8 +1,8 @@
 require_relative "change_employee"
 
 class ChangeName < ChangeEmployee
-  def initialize(empId, name)
-    super(empId)
+  def initialize(empId, name, database)
+    super(empId, database)
     @name = name
   end
 

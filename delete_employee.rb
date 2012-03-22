@@ -1,9 +1,10 @@
 class DeleteEmployee
-  def initialize(empId)
+  def initialize(empId, database)
     @empId = empId
+    @database = database
   end
 
   def execute
-    PayrollDatabase.delete_employee(@empId)
+    @database.delete_employee(@empId)
   end
 end

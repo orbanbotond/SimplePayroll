@@ -15,9 +15,13 @@ class Employee
     schedule.pay_date?(date)
   end
 
+  def get_pay_period_start_date(pay_date)
+    schedule.get_pay_period_start_date(pay_date)
+  end
+
   def payday(pc)
     pay = classification.calculate_pay(pc)
-    deductions = affiliation.calculate_deductions
+    deductions = affiliation.calculate_deductions(pc)
     pc.gross_pay = pay
     pc.deductions = deductions
     pc.disposition = payment_method.disposition

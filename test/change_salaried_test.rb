@@ -5,13 +5,14 @@ require_relative "../add_hourly_employee"
 describe ChangeSalaried do
   it "should an employees payment classification to salaried" do
     empId = 10
-    t = AddHourlyEmployee.new(empId, "Bill", "Home", 15.25)
+    database = PayrollDatabase.new
+    t = AddHourlyEmployee.new(empId, "Bill", "Home", 15.25, database)
     t.execute
 
-    cst = ChangeSalaried.new(empId, 1500.0)
+    cst = ChangeSalaried.new(empId, 1500.0, database)
     cst.execute
 
-    e = PayrollDatabase.get_employee(empId)
+    e = database.get_employee(empId)
     e.wont_be_nil
 
     pc = e.classification

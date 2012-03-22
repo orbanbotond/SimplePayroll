@@ -2,8 +2,8 @@ require_relative "union_affiliation"
 require_relative "change_affiliation"
 
 class ChangeUnionMember < ChangeAffiliation
-  def initialize(empId, memberId, dues)
-    super(empId)
+  def initialize(empId, memberId, dues, database)
+    super(empId, database)
     @dues = dues
     @memberId = memberId
   end
@@ -13,6 +13,6 @@ class ChangeUnionMember < ChangeAffiliation
   end
 
   def record_membership(employee)
-    PayrollDatabase.add_union_member(@memberId, employee)
+    @database.add_union_member(@memberId, employee)
   end
 end

@@ -1,10 +1,11 @@
 class ChangeEmployee
-  def initialize(empId)
+  def initialize(empId, database)
     @empId = empId
+    @database = database
   end
 
   def execute
-    e = PayrollDatabase.get_employee(@empId)
+    e = @database.get_employee(@empId)
 
     if (e == nil)
       raise "Employee #{@empId} Not Found"

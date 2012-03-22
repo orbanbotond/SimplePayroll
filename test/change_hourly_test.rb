@@ -7,13 +7,14 @@ require_relative "../weekly_schedule"
 describe ChangeHourly do
   it "should change an employees classification to hourly" do
     empId = 9
-    t = AddCommissionedEmployee.new(empId, "Bill", "Home", 1000, 3.0)
+    database = PayrollDatabase.new
+    t = AddCommissionedEmployee.new(empId, "Bill", "Home", 1000, 3.0, database)
     t.execute
 
-    cht = ChangeHourly.new(empId, 15.25)
+    cht = ChangeHourly.new(empId, 15.25, database)
     cht.execute
 
-    e = PayrollDatabase.get_employee(empId)
+    e = database.get_employee(empId)
     e.wont_be_nil
 
     pc = e.classification

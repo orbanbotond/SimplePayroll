@@ -5,8 +5,8 @@ require_relative "monthly_schedule"
 require_relative "hold_method"
 
 class AddSalariedEmployee < AddEmployee
-  def initialize(id, name, address, salary)
-    super(id, name, address)
+  def initialize(id, name, address, salary, database)
+    super(id, name, address, database)
     @salary = salary
   end
 

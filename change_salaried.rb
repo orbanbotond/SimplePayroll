@@ -3,8 +3,8 @@ require_relative "salaried_classification"
 require_relative "monthly_schedule"
 
 class ChangeSalaried < ChangeClassification
-  def initialize(empId, salary)
-    super(empId)
+  def initialize(empId, salary, database)
+    super(empId, database)
     @salary = salary
   end
 

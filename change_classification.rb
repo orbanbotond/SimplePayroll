@@ -1,8 +1,8 @@
 require_relative "change_employee"
 
 class ChangeClassification < ChangeEmployee
-  def initialize(empId)
-    super(empId)
+  def initialize(empId, database)
+    super(empId, database)
   end
 
   def change(employee)

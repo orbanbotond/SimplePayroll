@@ -1,14 +1,15 @@
 require_relative "time_card"
 
 class AddTimeCard
-  def initialize(date, hours, empId)
+  def initialize(date, hours, empId, database)
     @date = date
     @hours = hours
     @empId = empId
+    @database = database
   end
 
   def execute
-    e = PayrollDatabase.get_employee(@empId)
+    e = @database.get_employee(@empId)
 
     if (e == nil)
       raise "No Employee Found"

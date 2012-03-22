@@ -7,7 +7,7 @@ class NoAffiliation
     0
   end
 
-  def calculate_deductions
+  def calculate_deductions(paycheck)
     0
   end
 end

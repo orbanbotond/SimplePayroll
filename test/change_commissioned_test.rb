@@ -5,13 +5,14 @@ require_relative "../add_hourly_employee"
 describe ChangeCommissioned do
   it "should change an employees payment classification to commissioned" do
     empId = 11
-    t = AddHourlyEmployee.new(empId, "Bob", "Home", 15.25)
+    database = PayrollDatabase.new
+    t = AddHourlyEmployee.new(empId, "Bob", "Home", 15.25, database)
     t.execute
 
-    cct = ChangeCommissioned.new(empId, 1000, 3.0)
+    cct = ChangeCommissioned.new(empId, 1000, 3.0, database)
     cct.execute
 
-    e = PayrollDatabase.get_employee(empId)
+    e = database.get_employee(empId)
     e.wont_be_nil
 
     pc = e.classification

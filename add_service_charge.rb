@@ -1,14 +1,15 @@
 require_relative "service_charge"
 
 class AddServiceCharge
-  def initialize(memberId, date, charge)
+  def initialize(memberId, date, charge, database)
     @memberId = memberId
     @date = date
     @charge = charge
+    @database = database
   end
 
   def execute
-    e = PayrollDatabase.get_union_member(@memberId)
+    e = @database.get_union_member(@memberId)
 
     if (e == nil)
       raise "Member #{@memberId} Not Found"

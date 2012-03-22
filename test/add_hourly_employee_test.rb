@@ -4,10 +4,12 @@ require_relative "../add_hourly_employee"
 describe AddHourlyEmployee do
   it "should create an hourly employee" do
     empId = 2
-    t = AddHourlyEmployee.new(empId, "John", "Work", 20.0)
+    database = PayrollDatabase.new
+
+    t = AddHourlyEmployee.new(empId, "John", "Work", 20.0, database)
     t.execute
 
-    e = PayrollDatabase.get_employee(empId)
+    e = database.get_employee(empId)
     e.name.must_equal "John"
     e.address.must_equal "Work"
 

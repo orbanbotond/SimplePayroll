@@ -1,11 +1,11 @@
 require_relative "hold_method"
 require_relative "employee"
-require_relative "payroll_database"
 
 class AddEmployee
-  attr_reader :name, :empid, :address
+  attr_reader :name, :empid, :address, :database
 
-  def initialize(empid, name, address)
+  def initialize(empid, name, address, database)
+    @database = database
     @empid = empid
     @name = name
     @address = address
@@ -21,6 +21,6 @@ class AddEmployee
     e.schedule = ps
     e.payment_method = pm
 
-    PayrollDatabase.add_employee(empid, e)
+    database.add_employee(empid, e)
   end
 end

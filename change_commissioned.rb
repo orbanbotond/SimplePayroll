@@ -3,8 +3,8 @@ require_relative "commissioned_classification"
 require_relative "biweekly_schedule"
 
 class ChangeCommissioned < ChangeClassification
-  def initialize(empId, salary, rate)
-    super(empId)
+  def initialize(empId, salary, rate, database)
+    super(empId, database)
     @salary = salary
     @rate = rate
   end

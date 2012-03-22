@@ -1,8 +1,9 @@
 class Paycheck
-  attr_reader :pay_date
+  attr_reader :pay_date, :start_date
   attr_accessor :gross_pay, :deductions, :disposition
 
-  def initialize(pay_date)
+  def initialize(start_date, pay_date)
+    @start_date = start_date
     @pay_date = pay_date
   end
 

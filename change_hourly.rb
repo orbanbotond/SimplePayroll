@@ -1,8 +1,8 @@
 require_relative "change_classification"
 
 class ChangeHourly < ChangeClassification
-  def initialize(empId, rate)
-    super(empId)
+  def initialize(empId, rate, database)
+    super(empId, database)
     @rate = rate
   end
 

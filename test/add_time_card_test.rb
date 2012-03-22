@@ -6,13 +6,14 @@ require "date"
 describe AddTimeCard do
   it "should add a timecard to an employee" do
     empId = 5
-    t = AddHourlyEmployee.new(empId, "Bill", "Home", 15.25)
+    database = PayrollDatabase.new
+    t = AddHourlyEmployee.new(empId, "Bill", "Home", 15.25, database)
     t.execute
 
-    tct = AddTimeCard.new(Date.new(2005, 7, 31), 8.0, empId)
+    tct = AddTimeCard.new(Date.new(2005, 7, 31), 8.0, empId, database)
     tct.execute
 
-    e = PayrollDatabase.get_employee(empId)
+    e = database.get_employee(empId)
     e.wont_be_nil
 
     pc = e.classification

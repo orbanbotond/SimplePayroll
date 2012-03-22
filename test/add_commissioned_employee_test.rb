@@ -4,10 +4,11 @@ require_relative "../add_commissioned_employee"
 describe AddCommissionedEmployee do
   it "should create a commissioned employee" do
     empId = 3
-    t = AddCommissionedEmployee.new(empId, "Jim", "Garden", 500.0, 100.0)
+    database = PayrollDatabase.new
+    t = AddCommissionedEmployee.new(empId, "Jim", "Garden", 500.0, 100.0, database)
     t.execute
 
-    e = PayrollDatabase.get_employee(empId)
+    e = database.get_employee(empId)
     e.name.must_equal "Jim"
     e.address.must_equal "Garden"
 
