@@ -200,6 +200,14 @@ describe Payday do
   end
 
   def validate_hourly_paycheck(pt, empId, pay_date, pay)
+    validate_paycheck(pt, empId, pay_date, pay)
+  end
+
+  def validate_commissioned_paycheck(pt, empId, pay_date, pay)
+    validate_hourly_paycheck(pt, empId, pay_date, pay)
+  end
+
+  def validate_paycheck(pt, empId, pay_date, pay)
     pc = pt.get_paycheck(empId)
     pc.wont_be_nil
     pc.pay_date.must_equal pay_date
@@ -207,9 +215,5 @@ describe Payday do
     pc.disposition.must_equal "Hold"
     pc.deductions.must_be_close_to 0.0, 0.001
     pc.net_pay.must_be_close_to pay, 0.001
-  end
-
-  def validate_commissioned_paycheck(pt, empId, pay_date, pay)
-    validate_hourly_paycheck(pt, empId, pay_date, pay)
   end
 end
