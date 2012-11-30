@@ -22,7 +22,7 @@ class UnionAffiliation
     end
 
     charges = 0
-    service_charges = @service_charges.values.each do |service_charge|
+    @service_charges.values.each do |service_charge|
       if service_charge.date >= paycheck.start_date and service_charge.date <= paycheck.pay_date
         charges += service_charge.charge
       end
