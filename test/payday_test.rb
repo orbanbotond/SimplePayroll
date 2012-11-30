@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require_relative "../payday"
+require_relative "../payroll_database"
 require_relative "../add_salaried_employee"
 require_relative "../add_hourly_employee"
 require_relative "../add_time_card"
