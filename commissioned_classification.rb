@@ -22,8 +22,8 @@ class CommissionedClassification
     end
 
     commission = sales_for_period.inject(0) do |sum, sale|
-      sum += sale.amount
+      sum += sale.amount / @rate
     end
-    @salary + @rate * commission
+    @salary + commission
   end
 end

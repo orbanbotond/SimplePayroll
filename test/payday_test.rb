@@ -129,7 +129,7 @@ describe Payday do
   end
 
   it "should pay a commissiond employee with no commission" do
-    empId = 21
+    empId = 22
     t = AddCommissionedEmployee.new(empId, "Bob", "Home", 1000.0, 2.5, database)
     t.execute
 
@@ -139,8 +139,34 @@ describe Payday do
     validate_commissioned_paycheck(pt, empId, pay_date, 1000.0)
   end
 
+  it "should pay a commissiond employee with one commission only for current pay period" do
+    empId = 23
+    t = AddCommissionedEmployee.new(empId, "Bob", "Home", 1000.0, 10.0, database)
+    t.execute
+
+    pay_date = Date.new(2001, 11, 16)
+    AddSalesReceipt.new(empId, pay_date, 500, database).execute
+    AddSalesReceipt.new(empId, pay_date-14, 500, database).execute
+    AddSalesReceipt.new(empId, pay_date+14, 500, database).execute
+
+    pt = Payday.new(pay_date, database)
+    pt.execute
+    validate_commissioned_paycheck(pt, empId, pay_date, 1050.0)
+  end
+
+  it "should not pay a commissiond employee on wrong date" do
+    empId = 24
+    t = AddCommissionedEmployee.new(empId, "Bob", "Home", 1000.0, 2.5, database)
+    t.execute
+
+    pay_date = Date.new(2001, 11, 23)
+    pt = Payday.new(pay_date, database)
+    pt.execute
+    pt.get_paycheck(empId).must_be_nil
+  end
+
   it "should deduct service charges from member" do
-    empId = 22
+    empId = 25
     t = AddHourlyEmployee.new(empId, "Bob", "Home", 15.24, database)
     t.execute
 
@@ -167,7 +193,7 @@ describe Payday do
   end
 
   it "should deduct service charges correct when spanning multiple pay periods" do
-    empId = 23
+    empId = 26
     t = AddHourlyEmployee.new(empId, "Bill", "Home", 15.25, database)
     t.execute
 
