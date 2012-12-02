@@ -12,11 +12,7 @@ class AddEmployeePresenter
   end
 
   def update_view
-    if all_information_is_collected
-      @view.submit_enabled = true
-    else
-      @view.submit_enabled = false
-    end
+    @view.submit_enabled = all_information_is_collected
   end
 
   def all_information_is_collected
