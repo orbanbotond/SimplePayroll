@@ -3,13 +3,7 @@ require_relative "../add_employee_presenter"
 require_relative "../payroll_database"
 
 class MockAddEmployeeView
-  def submit_enabled
-    @enabled || false
-  end
-
-  def submit_enabled=(enabled)
-    @enabled = enabled
-  end
+  attr_accessor :submit_enabled
 end
 
 class TransactionContainer
@@ -77,7 +71,11 @@ describe AddEmployeePresenter do
   end
 
   def check_submit_enabled(expected)
-    @view.submit_enabled.must_equal expected
+    if expected
+      assert(@view.submit_enabled)
+    else
+      assert(!@view.submit_enabled)
+    end
   end
 
   it "should create transaction" do
