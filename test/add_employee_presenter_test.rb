@@ -8,13 +8,7 @@ class MockAddEmployeeView
   end
 
   def submit_enabled=(enabled)
-    @count ||= 0
-    @count += 1
     @enabled = enabled
-  end
-
-  def submit_enabled_count
-    @count
   end
 end
 
@@ -67,24 +61,23 @@ describe AddEmployeePresenter do
 
   it "should update view" do
     @presenter.empId = 1
-    check_submit_enabled(false, 1)
+    check_submit_enabled(false)
 
     @presenter.name = "Bill"
-    check_submit_enabled(false, 2)
+    check_submit_enabled(false)
 
     @presenter.address = "123 abc"
-    check_submit_enabled(false, 3)
+    check_submit_enabled(false)
 
     @presenter.hourly = true
-    check_submit_enabled(false, 4)
+    check_submit_enabled(false)
 
     @presenter.hourly_rate = 1.23
-    check_submit_enabled(true, 5)
+    check_submit_enabled(true)
   end
 
-  def check_submit_enabled(expected, count)
+  def check_submit_enabled(expected)
     @view.submit_enabled.must_equal expected
-    @view.submit_enabled_count.must_equal count
   end
 
   it "should create transaction" do

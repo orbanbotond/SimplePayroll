@@ -14,6 +14,7 @@ describe AddHourlyEmployee do
     e.address.must_equal "Work"
 
     pc = e.classification
+    pc.must_be_kind_of HourlyClassification
     pc.rate.must_be_close_to 20.0, 0.0001
 
     ps = e.schedule

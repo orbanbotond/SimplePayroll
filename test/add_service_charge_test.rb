@@ -25,5 +25,7 @@ describe AddServiceCharge do
 
     sc = af.get_service_charge(Date.new(2005, 8, 8))
     sc.wont_be_nil
+    sc.charge.must_be_close_to 12.95
+    sc.date.must_equal Date.new(2005, 8, 8)
   end
 end

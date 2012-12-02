@@ -13,6 +13,7 @@ describe AddCommissionedEmployee do
     e.address.must_equal "Garden"
 
     pc = e.classification
+    pc.must_be_kind_of CommissionedClassification
     pc.salary.must_be_close_to 500.0, 0.0001
     pc.rate.must_be_close_to 100.0, 0.0001
 

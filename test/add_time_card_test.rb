@@ -22,5 +22,6 @@ describe AddTimeCard do
     tc = pc.get_time_card(Date.new(2005, 7, 31))
     tc.wont_be_nil
     tc.hours.must_equal 8.0
+    tc.date.must_equal Date.new(2005, 7, 31)
   end
 end

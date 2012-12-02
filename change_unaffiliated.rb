@@ -1,8 +1,7 @@
 class ChangeUnaffiliated < ChangeAffiliation
   def record_membership(employee)
     af = employee.affiliation
-    memberId = af.memberId
-    @database.remove_union_member(memberId)
+    @database.remove_union_member(af.memberId)
   end
 
   def make_affiliation

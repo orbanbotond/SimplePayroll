@@ -21,5 +21,6 @@ describe AddSalesReceipt do
 
     srs = pc.get_sales_receipts
     srs.first.amount.must_equal 500
+    srs.first.date.must_equal Date.new(2005, 3, 30)
   end
 end
