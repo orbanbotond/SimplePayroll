@@ -10,11 +10,7 @@ class AddSalesReceipt
 
   def execute
     e = @database.get_employee(@empId)
-    if (e == nil)
-      raise "Employee: #{@empId} Not Found"
-    else
-      pc = e.classification
-      pc.add_sales_receipt(SalesReceipt.new(@date, @amount))
-    end
+    pc = e.classification
+    pc.add_sales_receipt(SalesReceipt.new(@date, @amount))
   end
 end
