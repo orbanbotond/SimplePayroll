@@ -5,9 +5,8 @@ class ChangeAffiliation < ChangeEmployee
     super(empId, database)
   end
 
-  def change(employee)
-    record_membership(employee)
-    af = make_affiliation
-    employee.affiliation = af
+  def change(e)
+    record_membership(e)
+    e.affiliation = make_affiliation
   end
 end

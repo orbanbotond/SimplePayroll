@@ -1,7 +1,7 @@
 require "minitest/autorun"
 require_relative "../add_service_charge"
 require_relative "../add_hourly_employee"
-require_relative "../union_affiliation"
+require_relative "../change_union_member"
 require "date"
 
 describe AddServiceCharge do
@@ -15,15 +15,12 @@ describe AddServiceCharge do
     e.wont_be_nil
 
     memberId = 86
-    af = UnionAffiliation.new(memberId, 10.0)
-    e.affiliation = af
-
-    database.add_union_member(memberId, e)
+    ChangeUnionMember.new(empId, memberId, 10.0, database).execute
 
     sct = AddServiceCharge.new(memberId, Date.new(2005, 8, 8), 12.95, database)
     sct.execute
 
-    sc = af.get_service_charge(Date.new(2005, 8, 8))
+    sc = e.affiliation.get_service_charge(Date.new(2005, 8, 8))
     sc.wont_be_nil
     sc.charge.must_be_close_to 12.95
     sc.date.must_equal Date.new(2005, 8, 8)

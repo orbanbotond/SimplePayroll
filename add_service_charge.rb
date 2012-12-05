@@ -10,12 +10,7 @@ class AddServiceCharge
 
   def execute
     e = @database.get_union_member(@memberId)
-
-    if (e == nil)
-      raise "Member #{@memberId} Not Found"
-    else
-      ua = e.affiliation
-      ua.add_service_charge(ServiceCharge.new(@date, @charge))
-    end
+    ua = e.affiliation
+    ua.add_service_charge(ServiceCharge.new(@date, @charge))
   end
 end
