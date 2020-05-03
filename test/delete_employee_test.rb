@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require_relative "../delete_employee"
 require_relative "../add_commissioned_employee"
+require_relative "../payroll_database"
 
 describe DeleteEmployee do
   it "should delete a previously created employee" do

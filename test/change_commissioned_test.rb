@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require_relative "../change_commissioned"
 require_relative "../add_hourly_employee"
+require_relative "../payroll_database"
 
 describe ChangeCommissioned do
   it "should change an employees payment classification to commissioned" do

@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require_relative "../change_address"
 require_relative "../add_hourly_employee"
+require_relative "../payroll_database"
 
 describe ChangeAddress do
   it "should change an employees address" do

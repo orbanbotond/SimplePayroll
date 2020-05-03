@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require_relative "../change_salaried"
 require_relative "../add_hourly_employee"
+require_relative "../payroll_database"
 
 describe ChangeSalaried do
   it "should an employees payment classification to salaried" do

@@ -2,6 +2,7 @@ require "minitest/autorun"
 require_relative "../add_service_charge"
 require_relative "../add_hourly_employee"
 require_relative "../change_union_member"
+require_relative "../payroll_database"
 require "date"
 
 describe AddServiceCharge do

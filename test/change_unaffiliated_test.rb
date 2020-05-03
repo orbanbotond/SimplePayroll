@@ -3,6 +3,7 @@ require_relative "../change_union_member"
 require_relative "../add_hourly_employee"
 require_relative "../change_unaffiliated"
 require_relative "../no_affiliation"
+require_relative "../payroll_database"
 
 describe ChangeUnionMember do
   it "should change an employee to have a union affiliation" do

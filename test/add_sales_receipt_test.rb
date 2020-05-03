@@ -1,6 +1,7 @@
 require "minitest/autorun"
 require_relative "../add_sales_receipt"
 require_relative "../add_commissioned_employee"
+require_relative "../payroll_database"
 require "date"
 
 describe AddSalesReceipt do

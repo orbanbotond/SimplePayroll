@@ -3,6 +3,7 @@ require_relative "../change_hourly"
 require_relative "../add_commissioned_employee"
 require_relative "../hourly_classification"
 require_relative "../weekly_schedule"
+require_relative "../payroll_database"
 
 describe ChangeHourly do
   it "should change an employees classification to hourly" do
