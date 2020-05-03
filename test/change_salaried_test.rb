@@ -24,4 +24,5 @@ describe ChangeSalaried do
     ps = e.schedule
     ps.must_be_kind_of MonthlySchedule
   end
+  # TODO add more test for checking that the old payment time works well and the new classification also works.
 end

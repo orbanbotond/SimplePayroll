@@ -24,4 +24,5 @@ describe AddTimeCard do
     tc.hours.must_equal 8.0
     tc.date.must_equal Date.new(2005, 7, 31)
   end
+  # TODO add negative tests.
 end

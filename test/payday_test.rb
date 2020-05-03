@@ -5,6 +5,7 @@ require_relative "../add_salaried_employee"
 require_relative "../add_hourly_employee"
 require_relative "../add_time_card"
 require_relative "../add_service_charge"
+require_relative "../add_sales_receipt"
 require_relative "../add_commissioned_employee"
 require_relative "../change_union_member"
 require "date"
@@ -70,16 +71,20 @@ describe Payday do
 
   it "should pay for over time" do
     empId = 17
-    t = AddHourlyEmployee.new(empId, "Bob", "Home", 15.25, database)
+    rate = 15.25
+    t = AddHourlyEmployee.new(empId, "Bob", "Home", rate, database)
     t.execute
 
     pay_date = Date.new(2001, 11, 9)
-    tc = AddTimeCard.new(pay_date, 9.0, empId, database)
+    regular_hours = 8
+    overtime_hours = 1
+    tc = AddTimeCard.new(pay_date, regular_hours + overtime_hours, empId, database)
     tc.execute
 
     pt = Payday.new(pay_date, database)
     pt.execute
-    validate_hourly_paycheck(pt, empId, pay_date, (8+1.5) * 15.25)
+    overtime_ratio = 1.5
+    validate_hourly_paycheck(pt, empId, pay_date, (regular_hours + overtime_hours * overtime_ratio) * rate)
   end
 
   it "should not pay hourly employee on wrong date" do
@@ -118,6 +123,8 @@ describe Payday do
     pay_date = Date.new(2001, 11, 9)
     tc = AddTimeCard.new(pay_date, 5.0, empId, database)
     tc.execute
+    tc = AddTimeCard.new(pay_date - 1, 4.0, empId, database)
+    tc.execute
     tc = AddTimeCard.new(pay_date-7, 6.0, empId, database)
     tc.execute
     tc = AddTimeCard.new(pay_date+7, 6.0, empId, database)
@@ -125,7 +132,7 @@ describe Payday do
 
     pt = Payday.new(pay_date, database)
     pt.execute
-    validate_hourly_paycheck(pt, empId, pay_date, 5*15.25)
+    validate_hourly_paycheck(pt, empId, pay_date, (5+4)*15.25)
   end
 
   it "should pay a commissiond employee with no commission" do
@@ -146,12 +153,13 @@ describe Payday do
 
     pay_date = Date.new(2001, 11, 16)
     AddSalesReceipt.new(empId, pay_date, 500, database).execute
+    AddSalesReceipt.new(empId, pay_date, 300, database).execute
     AddSalesReceipt.new(empId, pay_date-14, 500, database).execute
     AddSalesReceipt.new(empId, pay_date+14, 500, database).execute
 
     pt = Payday.new(pay_date, database)
     pt.execute
-    validate_commissioned_paycheck(pt, empId, pay_date, 1050.0)
+    validate_commissioned_paycheck(pt, empId, pay_date, 1000 + (500 + 300) * 10/100)
   end
 
   it "should not pay a commissiond employee on wrong date" do

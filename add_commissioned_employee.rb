@@ -13,6 +13,8 @@ class AddCommissionedEmployee < AddEmployee
     CommissionedClassification.new(@salary, @rate)
   end
 
+  #@todo why biweekly? should that aspect be independent of the commissions?
+  # this seems like a hard wired rule
   def make_schedule
     BiweeklySchedule.new
   end

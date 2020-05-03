@@ -25,4 +25,5 @@ describe ChangeCommissioned do
     ps = e.schedule
     ps.must_be_kind_of BiweeklySchedule
   end
+  # TODO add more test for checking the before after changes
 end
