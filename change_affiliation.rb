@@ -1,12 +1,15 @@
-require_relative "change_employee"
+# frozen_string_literal: true
 
+require_relative 'change_employee'
+
+# Business Logic Which Changes the Affiliation of the Employee
 class ChangeAffiliation < ChangeEmployee
-  def initialize(empId, database)
-    super(empId, database)
+  def initialize(emp_id, database)
+    super(emp_id, database)
   end
 
-  def change(e)
-    record_membership(e)
-    e.affiliation = make_affiliation
+  def change(employee)
+    record_membership(employee)
+    employee.affiliation = make_affiliation
   end
 end

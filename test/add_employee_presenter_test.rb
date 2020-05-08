@@ -1,6 +1,9 @@
-require "minitest/autorun"
-require_relative "../add_employee_presenter"
-require_relative "../payroll_database"
+# frozen_string_literal: true
+
+require 'minitest/autorun'
+require_relative 'test_helper'
+require_relative '../add_employee_presenter'
+require_relative '../payroll_database'
 
 class MockAddEmployeeView
   attr_accessor :submit_enabled
@@ -14,8 +17,8 @@ class TransactionContainer
   end
 end
 
+# rubocop:disable Metrics/BlockLength
 describe AddEmployeePresenter do
-
   before do
     @view = MockAddEmployeeView.new
     @container = TransactionContainer.new
@@ -23,44 +26,44 @@ describe AddEmployeePresenter do
     @presenter = AddEmployeePresenter.new(@view, @container, @database)
   end
 
-  it "should have all infos collected" do
-    assert(!@presenter.all_information_is_collected)
-    @presenter.empId = 1
-    assert(!@presenter.all_information_is_collected)
-    @presenter.name = "Bill"
-    assert(!@presenter.all_information_is_collected)
-    @presenter.address = "123 abc"
-    assert(!@presenter.all_information_is_collected)
+  it 'should have all infos collected' do
+    assert_not(@presenter.all_information_is_collected)
+    @presenter.emp_id = 1
+    assert_not(@presenter.all_information_is_collected)
+    @presenter.name = 'Bill'
+    assert_not(@presenter.all_information_is_collected)
+    @presenter.address = '123 abc'
+    assert_not(@presenter.all_information_is_collected)
     @presenter.hourly = true
-    assert(!@presenter.all_information_is_collected)
+    assert_not(@presenter.all_information_is_collected)
     @presenter.hourly_rate = 1.23
     assert(@presenter.all_information_is_collected)
 
     @presenter.hourly = false
-    assert(!@presenter.all_information_is_collected)
+    assert_not(@presenter.all_information_is_collected)
     @presenter.has_salary = true
-    assert(!@presenter.all_information_is_collected)
+    assert_not(@presenter.all_information_is_collected)
     @presenter.salary = 1234
     assert(@presenter.all_information_is_collected)
 
     @presenter.has_salary = false
-    assert(!@presenter.all_information_is_collected)
+    assert_not(@presenter.all_information_is_collected)
     @presenter.has_commission = true
-    assert(!@presenter.all_information_is_collected)
+    assert_not(@presenter.all_information_is_collected)
     @presenter.commission_salary = 1234
-    assert(!@presenter.all_information_is_collected)
+    assert_not(@presenter.all_information_is_collected)
     @presenter.commission = 12
     assert(@presenter.all_information_is_collected)
   end
 
-  it "should update view" do
-    @presenter.empId = 1
+  it 'should update view' do
+    @presenter.emp_id = 1
     check_submit_enabled(false)
 
-    @presenter.name = "Bill"
+    @presenter.name = 'Bill'
     check_submit_enabled(false)
 
-    @presenter.address = "123 abc"
+    @presenter.address = '123 abc'
     check_submit_enabled(false)
 
     @presenter.hourly = true
@@ -74,14 +77,14 @@ describe AddEmployeePresenter do
     if expected
       assert(@view.submit_enabled)
     else
-      assert(!@view.submit_enabled)
+      assert_not(@view.submit_enabled)
     end
   end
 
-  it "should create transaction" do
-    @presenter.empId = 123
-    @presenter.name = "Joe"
-    @presenter.address = "314 Elm"
+  it 'should create transaction' do
+    @presenter.emp_id = 123
+    @presenter.name = 'Joe'
+    @presenter.address = '314 Elm'
 
     @presenter.hourly = true
     @presenter.hourly_rate = 10
@@ -99,10 +102,10 @@ describe AddEmployeePresenter do
     @presenter.create_transaction.must_be_kind_of AddCommissionedEmployee
   end
 
-  it "should add an employee" do
-    @presenter.empId = 123
-    @presenter.name = "Joe"
-    @presenter.address = "314 Elm"
+  it 'should add an employee' do
+    @presenter.emp_id = 123
+    @presenter.name = 'Joe'
+    @presenter.address = '314 Elm'
     @presenter.hourly = true
     @presenter.hourly_rate = 25
 

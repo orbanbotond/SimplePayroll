@@ -1,7 +1,9 @@
-class PayrollDatabase
+# frozen_string_literal: true
 
+# Models a simple in memory Database
+class PayrollDatabase
   def self.instance
-    @db ||= PayrollDatabase.new
+    @instance ||= PayrollDatabase.new
   end
 
   def initialize
@@ -25,7 +27,7 @@ class PayrollDatabase
     @members[id] = employee
   end
 
-  def get_union_member(id)
+  def union_member(id)
     @members[id]
   end
 
@@ -33,7 +35,7 @@ class PayrollDatabase
     @members.delete(id)
   end
 
-  def get_all_employee_ids
+  def all_employee_ids
     @employees.keys
   end
 end

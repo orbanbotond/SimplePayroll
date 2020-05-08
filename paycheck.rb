@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Models the Paycheck
 class Paycheck
   attr_reader :pay_date, :start_date
   attr_accessor :gross_pay, :deductions, :disposition

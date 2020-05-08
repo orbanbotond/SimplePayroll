@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Models the No Affiliation
 class NoAffiliation
-  def memberId
+  def member_id
     nil
   end
 
@@ -7,7 +10,7 @@ class NoAffiliation
     0
   end
 
-  def calculate_deductions(paycheck)
+  def calculate_deductions(_paycheck)
     0
   end
 end

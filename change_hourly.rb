@@ -1,8 +1,11 @@
-require_relative "change_classification"
+# frozen_string_literal: true
 
+require_relative 'change_classification'
+
+# Business Logic Which Changes the Employee Classification to Hourly
 class ChangeHourly < ChangeClassification
-  def initialize(empId, rate, database)
-    super(empId, database)
+  def initialize(emp_id, rate, database)
+    super(emp_id, database)
     @rate = rate
   end
 

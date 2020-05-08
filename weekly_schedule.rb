@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Models the WeeklySchedule
 class WeeklySchedule
   def pay_date?(date)
     date.friday?

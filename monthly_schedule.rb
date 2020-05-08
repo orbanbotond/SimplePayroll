@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Models the MonthlySchedule of Payment
 class MonthlySchedule
   def pay_date?(date)
     last_day_of_month?(date)

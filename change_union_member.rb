@@ -1,18 +1,21 @@
-require_relative "union_affiliation"
-require_relative "change_affiliation"
+# frozen_string_literal: true
 
+require_relative 'union_affiliation'
+require_relative 'change_affiliation'
+
+# Business Logic Which Changes the Employee Affiliation to UnionMember
 class ChangeUnionMember < ChangeAffiliation
-  def initialize(empId, memberId, dues, database)
-    super(empId, database)
+  def initialize(emp_id, member_id, dues, database)
+    super(emp_id, database)
     @dues = dues
-    @memberId = memberId
+    @member_id = member_id
   end
 
   def make_affiliation
-    UnionAffiliation.new(@memberId, @dues)
+    UnionAffiliation.new(@member_id, @dues)
   end
 
   def record_membership(employee)
-    @database.add_union_member(@memberId, employee)
+    @database.add_union_member(@member_id, employee)
   end
 end

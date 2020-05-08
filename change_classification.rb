@@ -1,8 +1,11 @@
-require_relative "change_employee"
+# frozen_string_literal: true
 
+require_relative 'change_employee'
+
+# A generic Business Logic Which Changes the Employee Classification
 class ChangeClassification < ChangeEmployee
-  def initialize(empId, database)
-    super(empId, database)
+  def initialize(emp_id, database)
+    super(emp_id, database)
   end
 
   def change(employee)

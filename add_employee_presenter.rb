@@ -1,10 +1,14 @@
-require_relative "add_hourly_employee"
-require_relative "add_salaried_employee"
-require_relative "add_commissioned_employee"
+# frozen_string_literal: true
 
+require_relative 'add_hourly_employee'
+require_relative 'add_salaried_employee'
+require_relative 'add_commissioned_employee'
+
+# Business Logic Which Adds an Employee Presenter
+# rubocop:disable All
 class AddEmployeePresenter
-  attr_reader :empId, :name, :address, :hourly, :hourly_rate, :has_salary, :salary,
-                :has_commission, :commission_salary, :commission
+  attr_reader :emp_id, :name, :address, :hourly, :hourly_rate, :has_salary, :salary,
+              :has_commission, :commission_salary, :commission
   def initialize(view, container, database)
     @view = view
     @container = container
@@ -17,15 +21,15 @@ class AddEmployeePresenter
 
   def all_information_is_collected
     result = true
-    result &&= empId && empId > 0
-    result &&= name && !name.empty?
-    result &&= address && !address.empty?
+    result &&= emp_id && emp_id > 0
+    result &&= name.present?
+    result &&= address.present?
     if hourly
-      result &&= hourly_rate && hourly_rate > 0
+      result &&= hourly_rate.present? && hourly_rate.positive?
     elsif has_salary
-      result &&= salary && salary > 0
+      result &&= salary.present? && salary.positive?
     elsif has_commission
-      result &&= commission_salary && commission_salary > 0 && commission && commission > 0
+      result &&= commission_salary.present? && commission_salary.positive? && commission.present? && commission.positive?
     else
       result = false
     end
@@ -35,13 +39,11 @@ class AddEmployeePresenter
 
   def create_transaction
     if hourly
-      AddHourlyEmployee.new(empId, name, address, hourly_rate, @database)
+      AddHourlyEmployee.new(emp_id, name, address, hourly_rate, @database)
     elsif has_salary
-      AddSalariedEmployee.new(empId, name, address, salary, @database)
+      AddSalariedEmployee.new(emp_id, name, address, salary, @database)
     elsif has_commission
-      AddCommissionedEmployee.new(empId, name, address, commission_salary, commission, @database)
-    else
-      nil
+      AddCommissionedEmployee.new(emp_id, name, address, commission_salary, commission, @database)
     end
   end
 
@@ -49,10 +51,10 @@ class AddEmployeePresenter
     @container.transactions << create_transaction
   end
 
-  def empId=(empId)
-    @empId = empId
+  def emp_id=(emp_id)
+    @emp_id = emp_id
     update_view
-    @empId
+    @emp_id
   end
 
   def name=(name)

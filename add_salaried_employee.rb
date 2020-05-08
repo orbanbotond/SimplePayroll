@@ -1,9 +1,12 @@
-require_relative "add_employee"
-require_relative "employee"
-require_relative "salaried_classification"
-require_relative "monthly_schedule"
-require_relative "hold_method"
+# frozen_string_literal: true
 
+require_relative 'add_employee'
+require_relative 'employee'
+require_relative 'salaried_classification'
+require_relative 'monthly_schedule'
+require_relative 'hold_method'
+
+# Business Logic Which Adds a SalariedEmployee into the system
 class AddSalariedEmployee < AddEmployee
   def initialize(id, name, address, salary, database)
     super(id, name, address, database)

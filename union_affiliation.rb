@@ -1,10 +1,13 @@
-class UnionAffiliation
-  attr_reader :dues, :memberId
+# frozen_string_literal: true
 
-  def initialize(memberId, dues)
+# Models the UnionAffiliation
+class UnionAffiliation
+  attr_reader :dues, :member_id
+
+  def initialize(member_id, dues)
     @service_charges = {}
     @dues = dues
-    @memberId = memberId
+    @member_id = member_id
   end
 
   def get_service_charge(date)
@@ -16,18 +19,19 @@ class UnionAffiliation
   end
 
   def calculate_deductions(paycheck)
-    fridays = 0
-    ((paycheck.start_date)..(paycheck.pay_date)).each do |date|
-      fridays += 1 if date.friday?
-    end
-
     charges = 0
     @service_charges.values.each do |service_charge|
-      if service_charge.date >= paycheck.start_date and service_charge.date <= paycheck.pay_date
+      if (service_charge.date >= paycheck.start_date) && (service_charge.date <= paycheck.pay_date)
         charges += service_charge.charge
       end
     end
 
-    @dues * fridays + charges
+    @dues * fridays(paycheck) + charges
+  end
+
+  private
+
+  def fridays(paycheck)
+    ((paycheck.start_date)..(paycheck.pay_date)).select(&:friday?).count
   end
 end

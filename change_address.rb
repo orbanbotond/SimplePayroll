@@ -1,8 +1,11 @@
-require_relative "change_employee"
+# frozen_string_literal: true
 
+require_relative 'change_employee'
+
+# Business Logic Which Changes the Employee Address
 class ChangeAddress < ChangeEmployee
-  def initialize(empId, address, database)
-    super(empId, database)
+  def initialize(emp_id, address, database)
+    super(emp_id, database)
     @address = address
   end
 

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Models the ServiceCharge
 class ServiceCharge
   attr_reader :date, :charge
 

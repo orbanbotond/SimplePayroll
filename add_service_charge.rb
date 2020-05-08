@@ -1,15 +1,18 @@
-require_relative "service_charge"
+# frozen_string_literal: true
 
+require_relative 'service_charge'
+
+# Business Logic Which Adds a ServiceCharge into the System
 class AddServiceCharge
-  def initialize(memberId, date, charge, database)
-    @memberId = memberId
+  def initialize(member_id, date, charge, database)
+    @member_id = member_id
     @date = date
     @charge = charge
     @database = database
   end
 
   def execute
-    e = @database.get_union_member(@memberId)
+    e = @database.union_member(@member_id)
     ua = e.affiliation
     ua.add_service_charge(ServiceCharge.new(@date, @charge))
   end

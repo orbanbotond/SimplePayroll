@@ -1,10 +1,13 @@
-require_relative "change_classification"
-require_relative "salaried_classification"
-require_relative "monthly_schedule"
+# frozen_string_literal: true
 
+require_relative 'change_classification'
+require_relative 'salaried_classification'
+require_relative 'monthly_schedule'
+
+# Business Logic Which Changes the Employee Classification to Salaried
 class ChangeSalaried < ChangeClassification
-  def initialize(empId, salary, database)
-    super(empId, database)
+  def initialize(emp_id, salary, database)
+    super(emp_id, database)
     @salary = salary
   end
 

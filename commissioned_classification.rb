@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Models the CommissionedClassification of the employee
 class CommissionedClassification
   attr_reader :salary, :rate
 
@@ -7,7 +10,7 @@ class CommissionedClassification
     @receipts = []
   end
 
-  def get_sales_receipts
+  def sales_receipts
     @receipts
   end
 
@@ -15,14 +18,14 @@ class CommissionedClassification
     @receipts << sales_receipt
   end
 
-  def calculate_pay(pc)
-    range = ((pc.pay_date - 13)..(pc.pay_date))
+  def calculate_pay(pay_check)
+    range = ((pay_check.pay_date - 13)..(pay_check.pay_date))
     sales_for_period = @receipts.select do |sale|
       range.member? sale.date
     end
 
     commission = sales_for_period.inject(0) do |sum, sale|
-      sum += sale.amount / @rate
+      sum + sale.amount / @rate
     end
     @salary + commission
   end

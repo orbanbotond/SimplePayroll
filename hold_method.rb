@@ -1,10 +1,12 @@
-class HoldMethod
+# frozen_string_literal: true
 
+# Models A Hold Payment Method
+class HoldMethod
   def disposition
-    "Hold"
+    'Hold'
   end
 
-  def pay(pc)
-    pc.to_s
+  def pay(pay_check)
+    pay_check.to_s
   end
 end
