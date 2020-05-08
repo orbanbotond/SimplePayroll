@@ -5,7 +5,6 @@ require_relative 'add_salaried_employee'
 require_relative 'add_commissioned_employee'
 
 # Business Logic Which Adds an Employee Presenter
-# rubocop:disable All
 class AddEmployeePresenter
   attr_reader :emp_id, :name, :address, :hourly, :hourly_rate, :has_salary, :salary,
               :has_commission, :commission_salary, :commission

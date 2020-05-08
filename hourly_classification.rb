@@ -17,6 +17,7 @@ class HourlyClassification
     @timecards[time_card.date] = time_card
   end
 
+  # rubocop:disable Metrics/AbcSize
   def calculate_pay(pay_check)
     date_range = ((pay_check.pay_date - 6)..(pay_check.pay_date))
     time_cards_for_period = @timecards.select do |date, _time_card|

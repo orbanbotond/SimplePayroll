@@ -23,10 +23,10 @@ describe Payday do
     t.execute
 
     pay_date = Date.new(2001, 11, 30)
-    pt = Payday.new(pay_date, database)
-    pt.execute
+    payday = Payday.new(pay_date, database)
+    payday.execute
 
-    pay_check = pt.get_paycheck(emp_id)
+    pay_check = payday.get_paycheck(emp_id)
     pay_check.pay_date.must_equal pay_date
     pay_check.gross_pay.must_be_close_to 1000.0, 0.001
     pay_check.disposition.must_equal 'Hold'
@@ -40,9 +40,9 @@ describe Payday do
     t.execute
 
     pay_date = Date.new(2001, 11, 29)
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    pay_check = pt.get_paycheck(emp_id)
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    pay_check = payday.get_paycheck(emp_id)
     pay_check.must_be_nil
   end
 
@@ -52,10 +52,10 @@ describe Payday do
     t.execute
 
     pay_date = Date.new(2001, 11, 9)
-    pt = Payday.new(pay_date, database)
-    pt.execute
+    payday = Payday.new(pay_date, database)
+    payday.execute
 
-    validate_hourly_paycheck(pt, emp_id, pay_date, 0.0)
+    validate_hourly_paycheck(payday, emp_id, pay_date, 0.0)
   end
 
   it 'should pay a single hourly employe with one time card' do
@@ -67,10 +67,10 @@ describe Payday do
     tc = AddTimeCard.new(pay_date, 2.0, emp_id, database)
     tc.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
+    payday = Payday.new(pay_date, database)
+    payday.execute
 
-    validate_hourly_paycheck(pt, emp_id, pay_date, 30.5)
+    validate_hourly_paycheck(payday, emp_id, pay_date, 30.5)
   end
 
   it 'should pay for over time' do
@@ -85,10 +85,10 @@ describe Payday do
     tc = AddTimeCard.new(pay_date, regular_hours + overtime_hours, emp_id, database)
     tc.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
+    payday = Payday.new(pay_date, database)
+    payday.execute
     overtime_ratio = 1.5
-    validate_hourly_paycheck(pt, emp_id, pay_date, (regular_hours + overtime_hours * overtime_ratio) * rate)
+    validate_hourly_paycheck(payday, emp_id, pay_date, (regular_hours + overtime_hours * overtime_ratio) * rate)
   end
 
   it 'should not pay hourly employee on wrong date' do
@@ -99,9 +99,9 @@ describe Payday do
     tc = AddTimeCard.new(pay_date, 9.0, emp_id, database)
     tc.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    pt.get_paycheck(emp_id).must_be_nil
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    payday.get_paycheck(emp_id).must_be_nil
   end
 
   it 'should pay hourly employee two time cards' do
@@ -114,9 +114,9 @@ describe Payday do
     tc = AddTimeCard.new(pay_date - 1, 6.0, emp_id, database)
     tc.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    validate_hourly_paycheck(pt, emp_id, pay_date, 11 * 15.25)
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    validate_hourly_paycheck(payday, emp_id, pay_date, 11 * 15.25)
   end
 
   it 'should pay only one pay period' do
@@ -134,9 +134,9 @@ describe Payday do
     tc = AddTimeCard.new(pay_date + 7, 6.0, emp_id, database)
     tc.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    validate_hourly_paycheck(pt, emp_id, pay_date, (5 + 4) * 15.25)
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    validate_hourly_paycheck(payday, emp_id, pay_date, (5 + 4) * 15.25)
   end
 
   it 'should pay a commissioned employee with no commission' do
@@ -145,9 +145,9 @@ describe Payday do
     t.execute
 
     pay_date = Date.new(2001, 11, 16)
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    validate_commissioned_paycheck(pt, emp_id, pay_date, 1000.0)
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    validate_commissioned_paycheck(payday, emp_id, pay_date, 1000.0)
   end
 
   it 'should pay a commissioned employee with one commission only for current pay period' do
@@ -161,9 +161,9 @@ describe Payday do
     AddSalesReceipt.new(emp_id, pay_date - 14, 500, database).execute
     AddSalesReceipt.new(emp_id, pay_date + 14, 500, database).execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    validate_commissioned_paycheck(pt, emp_id, pay_date, 1000 + (500 + 300) * 10 / 100)
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    validate_commissioned_paycheck(payday, emp_id, pay_date, 1000 + (500 + 300) * 10 / 100)
   end
 
   it 'should not pay a commissioned employee on wrong date' do
@@ -172,9 +172,9 @@ describe Payday do
     t.execute
 
     pay_date = Date.new(2001, 11, 23)
-    pt = Payday.new(pay_date, database)
-    pt.execute
-    pt.get_paycheck(emp_id).must_be_nil
+    payday = Payday.new(pay_date, database)
+    payday.execute
+    payday.get_paycheck(emp_id).must_be_nil
   end
 
   it 'should deduct service charges from member' do
@@ -193,10 +193,10 @@ describe Payday do
     tct = AddTimeCard.new(pay_date, 8.0, emp_id, database)
     tct.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
+    payday = Payday.new(pay_date, database)
+    payday.execute
 
-    pay_check = pt.get_paycheck(emp_id)
+    pay_check = payday.get_paycheck(emp_id)
     pay_check.wont_be_nil
     pay_check.pay_date.must_equal pay_date
     pay_check.gross_pay.must_be_close_to 8 * 15.24, 0.001
@@ -227,26 +227,26 @@ describe Payday do
     tct = AddTimeCard.new(pay_date, 8.0, emp_id, database)
     tct.execute
 
-    pt = Payday.new(pay_date, database)
-    pt.execute
+    payday = Payday.new(pay_date, database)
+    payday.execute
 
-    pay_check = pt.get_paycheck(emp_id)
+    pay_check = payday.get_paycheck(emp_id)
     pay_check.wont_be_nil
     pay_check.gross_pay.must_be_close_to 8.0 * 15.25, 0.001
     pay_check.deductions.must_be_close_to 9.42 + 19.42, 0.001
     pay_check.net_pay.must_be_close_to 8.0 * 15.25 - 9.42 - 19.42, 0.001
   end
 
-  def validate_hourly_paycheck(pt, emp_id, pay_date, pay)
-    validate_paycheck(pt, emp_id, pay_date, pay)
+  def validate_hourly_paycheck(payday, emp_id, pay_date, pay)
+    validate_paycheck(payday, emp_id, pay_date, pay)
   end
 
-  def validate_commissioned_paycheck(pt, emp_id, pay_date, pay)
-    validate_hourly_paycheck(pt, emp_id, pay_date, pay)
+  def validate_commissioned_paycheck(payday, emp_id, pay_date, pay)
+    validate_hourly_paycheck(payday, emp_id, pay_date, pay)
   end
 
-  def validate_paycheck(pt, emp_id, pay_date, pay)
-    pay_check = pt.get_paycheck(emp_id)
+  def validate_paycheck(payday, emp_id, pay_date, pay)
+    pay_check = payday.get_paycheck(emp_id)
     pay_check.wont_be_nil
     pay_check.pay_date.must_equal pay_date
     pay_check.gross_pay.must_be_close_to pay, 0.001
