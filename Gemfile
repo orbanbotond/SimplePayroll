@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 gem 'activesupport', require: false
 gem 'immutable-struct'
+gem 'pry'
+gem 'pry-nav'
 
 group :development, :test do
   gem 'minitest'

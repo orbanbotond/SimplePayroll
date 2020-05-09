@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative '../change_employee'
+require_relative '../common/change_employee'
 
 module Union
   # Business Logic Which Changes the Affiliation of the Employee
