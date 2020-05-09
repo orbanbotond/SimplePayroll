@@ -13,7 +13,7 @@ class Payday
   def execute
     emp_ids = @database.all_employee_ids
     emp_ids.each do |emp_id|
-      employee = @database.get_employee(emp_id)
+      employee = @database.employee(emp_id)
       next unless employee.pay_date?(@pay_date)
 
       start_date = employee.get_pay_period_start_date(@pay_date)

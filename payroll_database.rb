@@ -11,7 +11,7 @@ class PayrollDatabase
     @members = {}
   end
 
-  def get_employee(id)
+  def employee(id)
     @employees[id]
   end
 

@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 gem 'activesupport', require: false
+gem 'immutable-struct'
 
 group :development, :test do
   gem 'minitest'

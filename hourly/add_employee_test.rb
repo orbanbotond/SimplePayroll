@@ -2,24 +2,24 @@
 
 require 'minitest/autorun'
 
-require_relative 'test_helper'
-require_relative '../add_hourly_employee'
+require_relative '../test/test_helper'
 require_relative '../payroll_database'
+require_relative 'add_employee'
 
-describe AddHourlyEmployee do
+describe Hourly::AddEmployee do
   it 'should create an hourly employee' do
-    emp_id = 2
+    id = 2
     database = PayrollDatabase.new
 
-    t = AddHourlyEmployee.new(emp_id, 'John', 'Work', 20.0, database)
+    t = Hourly::AddEmployee.new(id: id, name: 'John', address: 'Work', rate: 20.0, database: database)
     t.execute
 
-    e = database.get_employee(emp_id)
+    e = database.employee(id)
     e.name.must_equal 'John'
     e.address.must_equal 'Work'
 
     pay_check = e.classification
-    pay_check.must_be_kind_of HourlyClassification
+    pay_check.must_be_kind_of Hourly::Classification
     pay_check.rate.must_be_close_to 20.0, 0.0001
 
     ps = e.schedule

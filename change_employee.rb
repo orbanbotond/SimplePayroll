@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-# Business Logic Which Changes the Employee
-class ChangeEmployee
-  def initialize(emp_id, database)
-    @emp_id = emp_id
-    @database = database
-  end
-
+# Business Logic Module Which Changes the Employee
+# expects to respond to these:
+# - database
+# - id
+module ChangeEmployee
   def execute
-    e = @database.get_employee(@emp_id)
-    raise "Employee #{@emp_id} Not Found" unless e.present?
+    employee = database.employee(id)
+    raise "Employee #{id} Not Found" unless employee.present?
 
-    change(e)
+    change(employee)
   end
 end

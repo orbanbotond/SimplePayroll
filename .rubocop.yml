@@ -1,7 +1,7 @@
 require: rubocop-rails
 
 Metrics/LineLength:
-  Max: 100
+  Max: 130
 
 Rails/Blank:
   Enabled: false

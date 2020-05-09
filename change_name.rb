@@ -2,14 +2,11 @@
 
 require_relative 'change_employee'
 
-# Business Logic Which Changes the Employee Name
-class ChangeName < ChangeEmployee
-  def initialize(emp_id, name, database)
-    super(emp_id, database)
-    @name = name
-  end
+# Business Logic Which Changes the Employee Address
+ChangeName = ImmutableStruct.new(:id, :name, :database) do
+  include ::ChangeEmployee
 
   def change(employee)
-    employee.name = @name
+    employee.name = name
   end
 end

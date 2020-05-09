@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'no_affiliation'
+require_relative 'union/no_affiliation'
 
 # Models an employee
 class Employee
