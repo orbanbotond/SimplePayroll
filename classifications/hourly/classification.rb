@@ -17,7 +17,7 @@ module Hourly
 
     # rubocop:disable Metrics/AbcSize
     def calculate_pay(pay_check)
-      date_range = ((pay_check.pay_date - 6)..(pay_check.pay_date))
+      date_range = ((pay_check.start_date)..(pay_check.pay_date))
       time_cards_for_period = timecards.select do |date, _time_card|
         date_range.member? date
       end.values

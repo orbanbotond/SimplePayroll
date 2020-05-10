@@ -16,7 +16,7 @@ module Comissioned
     end
 
     def calculate_pay(pay_check)
-      range = ((pay_check.pay_date - 13)..(pay_check.pay_date))
+      range = ((pay_check.start_date)..(pay_check.pay_date))
       sales_for_period = receipts.select do |sale|
         range.member? sale.date
       end
