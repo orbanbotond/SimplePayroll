@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'paycheck'
+require_relative '../paycheck'
 
 # Business Logic encapsulating the PayRoll on a given paydate
-class Payday
+class CreatePaychecks
   def initialize(pay_date, database)
     @pay_date = pay_date
     @database = database

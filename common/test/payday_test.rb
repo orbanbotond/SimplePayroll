@@ -10,11 +10,11 @@ require 'comissioned/operations/add_employee'
 require 'comissioned/operations/add_sales_receipt'
 require 'operations/affiliate'
 require 'operations/add_service_charge'
-require_relative '../payday'
+require_relative '../operations/create_paychecks'
 require 'date'
 
 # rubocop:disable Metrics/BlockLength
-describe Payday do
+describe CreatePaychecks do
   database = PayrollDatabase.new
 
   describe 'salaried classifications' do
@@ -23,7 +23,7 @@ describe Payday do
       Salaried::AddEmployee.new(id: id, name: 'Bill', address: 'Home', salary: 1000.0, database: database).execute
 
       pay_date = Date.new(2001, 11, 30)
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
 
       pay_check = payday.get_paycheck(id)
@@ -39,7 +39,7 @@ describe Payday do
       Salaried::AddEmployee.new(id: id, name: 'Bob', address: 'Home', salary: 1100.0, database: database).execute
 
       pay_date = Date.new(2001, 11, 29)
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       pay_check = payday.get_paycheck(id)
       pay_check.must_be_nil
@@ -52,7 +52,7 @@ describe Payday do
       Hourly::AddEmployee.new(id: id, name: 'Bob', address: 'Home', rate: 15.25, database: database).execute
 
       pay_date = Date.new(2001, 11, 9)
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
 
       validate_hourly_paycheck(payday, id, pay_date, 0.0)
@@ -65,7 +65,7 @@ describe Payday do
       pay_date = Date.new(2001, 11, 9)
       Hourly::AddTimeCard.new(date: pay_date, hours: 2.0, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
 
       validate_hourly_paycheck(payday, id, pay_date, 30.5)
@@ -81,7 +81,7 @@ describe Payday do
       overtime_hours = 1
       Hourly::AddTimeCard.new(date: pay_date, hours: regular_hours + overtime_hours, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       overtime_ratio = 1.5
       validate_hourly_paycheck(payday, id, pay_date, (regular_hours + overtime_hours * overtime_ratio) * rate)
@@ -94,7 +94,7 @@ describe Payday do
       pay_date = Date.new(2001, 11, 8)
       Hourly::AddTimeCard.new(date: pay_date, hours: 9.0, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       payday.get_paycheck(id).must_be_nil
     end
@@ -107,7 +107,7 @@ describe Payday do
       Hourly::AddTimeCard.new(date: pay_date, hours: 5.0, id: id, database: database).execute
       Hourly::AddTimeCard.new(date: pay_date - 1, hours: 6.0, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       validate_hourly_paycheck(payday, id, pay_date, 11 * 15.25)
     end
@@ -122,7 +122,7 @@ describe Payday do
       Hourly::AddTimeCard.new(date: pay_date - 7, hours: 6.0, id: id, database: database).execute
       Hourly::AddTimeCard.new(date: pay_date + 7, hours: 6.0, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       validate_hourly_paycheck(payday, id, pay_date, (5 + 4) * 15.25)
     end
@@ -134,7 +134,7 @@ describe Payday do
       Comissioned::AddEmployee.new(id: id, name: 'Bill', address: 'Home', salary: 1000.0, rate: 2.5, database: database).execute
 
       pay_date = Date.new(2001, 11, 16)
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       validate_commissioned_paycheck(payday, id, pay_date, 1000.0)
     end
@@ -149,7 +149,7 @@ describe Payday do
       Comissioned::AddSalesReceipt.new(id: id, date: pay_date - 14, amount: 500, database: database).execute
       Comissioned::AddSalesReceipt.new(id: id, date: pay_date + 14, amount: 500, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       validate_commissioned_paycheck(payday, id, pay_date, 1000 + (500 + 300) * 10 / 100)
     end
@@ -159,7 +159,7 @@ describe Payday do
       Comissioned::AddEmployee.new(id: id, name: 'Bill', address: 'Home', salary: 1000.0, rate: 2.5, database: database).execute
 
       pay_date = Date.new(2001, 11, 23)
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
       payday.get_paycheck(id).must_be_nil
     end
@@ -178,7 +178,7 @@ describe Payday do
 
       Hourly::AddTimeCard.new(date: pay_date, hours: 8.0, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
 
       pay_check = payday.get_paycheck(id)
@@ -205,7 +205,7 @@ describe Payday do
 
       Hourly::AddTimeCard.new(date: pay_date, hours: 8.0, id: id, database: database).execute
 
-      payday = Payday.new(pay_date, database)
+      payday = CreatePaychecks.new(pay_date, database)
       payday.execute
 
       pay_check = payday.get_paycheck(id)
