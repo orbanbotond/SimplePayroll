@@ -7,7 +7,6 @@ module Union
       @service_charges ||= {}
     end
 
-    # TODO: change this to service_charge
     def service_charge(date)
       service_charges[date]
     end
@@ -17,12 +16,8 @@ module Union
     end
 
     def calculate_deductions(paycheck)
-      charges = 0
-      service_charges.values.each do |service_charge|
-        if (service_charge.date >= paycheck.start_date) && (service_charge.date <= paycheck.pay_date)
-          charges += service_charge.charge
-        end
-      end
+      deductable_charges = service_charges.values.filter { |charge| (charge.date >= paycheck.start_date) && (charge.date <= paycheck.pay_date) }
+      charges = deductable_charges.inject(0) { |sum, service_charge| sum + service_charge.charge }
 
       dues * fridays(paycheck) + charges
     end
