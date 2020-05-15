@@ -8,10 +8,9 @@ require 'operations/delete_employee'
 
 describe DeleteEmployee do
   it 'should delete a previously created employee' do
-    id = 4
-    database = PayrollDatabase.new
+    id = 5
+    database = PayrollDatabase.instance
     Hourly::AddEmployee.new(id: id, name: 'Bill', address: 'Work', rate: 20.0, database: database).execute
-
     DeleteEmployee.new(id: id, database: database).execute
 
     employee = database.employee(id)

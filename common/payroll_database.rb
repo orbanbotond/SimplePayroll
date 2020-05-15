@@ -6,11 +6,6 @@ class PayrollDatabase
     @instance ||= PayrollDatabase.new
   end
 
-  def initialize
-    @employees = {}
-    @members = {}
-  end
-
   def employee(id)
     @employees[id]
   end
@@ -38,4 +33,13 @@ class PayrollDatabase
   def all_employee_ids
     @employees.keys
   end
+
+  private
+
+  def initialize
+    @employees = {}
+    @members = {}
+  end
 end
+
+require 'relational/postgresql_database'
