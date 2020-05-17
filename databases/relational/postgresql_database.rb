@@ -109,9 +109,3 @@ module Relational
     end
   end
 end
-
-class PayrollDatabase
-  def self.instance
-    @instance ||= Relational::PostgresqlDatabase.new
-  end
-end

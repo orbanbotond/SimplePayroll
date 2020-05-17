@@ -3,6 +3,8 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Operations::DeleteEmployee do
+  include DatabaseCleanerSupport
+
   it 'should delete a previously created employee' do
     id = 5
     database = Relational::PostgresqlDatabase.new

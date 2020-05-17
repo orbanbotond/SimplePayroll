@@ -3,6 +3,8 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Operations::ChangeName do
+  include DatabaseCleanerSupport
+
   it 'should change the name of an employee' do
     id = 2
     database = Relational::PostgresqlDatabase.new

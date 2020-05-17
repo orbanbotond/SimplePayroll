@@ -3,6 +3,8 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Operations::ChangeAddress do
+  include DatabaseCleanerSupport
+
   it 'should change an employees address' do
     id = 8
     database = Relational::PostgresqlDatabase.new
