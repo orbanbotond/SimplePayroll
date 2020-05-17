@@ -44,3 +44,4 @@ end
 
 # Figure a way out for this: use a factory
 # require 'relational/postgresql_database'
+Relational::PostgresqlDatabase

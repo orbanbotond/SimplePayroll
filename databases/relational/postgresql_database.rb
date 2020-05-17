@@ -5,17 +5,6 @@ require 'rom-sql'
 # relation -> schema/commands
 # repository -> commands/query methods
 
-opts = {
-    username: 'orbanbotond',
-    password: '',
-    encoding: 'UTF8',
-    host: 'localhost',
-    post: 5432,
-    database: 'simple_payroll'
-}
-
-postgresql_config = ROM::Configuration.new(:sql, "postgres://#{opts[:host]}:#{opts[:port]}/#{opts[:database]}", opts)
-
 # postgresql_config.default.create_table(:employees) do
 #   primary_key :id
 #   # classification, :payment_method, :affiliation, :name, :address
@@ -28,108 +17,69 @@ postgresql_config = ROM::Configuration.new(:sql, "postgres://#{opts[:host]}:#{op
 #   column :employee_id, String, null: false
 # end
 
-class Employees < ROM::Relation[:sql]
-  schema(infer: true) do
-    associations do
-      has_one :schedule
-    end
-  end
-  # attribute :id, Types::Int
-  # attribute :name, Types::String
-  # attribute :address, Types::String
-end
-postgresql_config.register_relation(Employees)
-
-class Schedules < ROM::Relation[:sql]
-  schema(infer: true) do
-    associations do
-      belongs_to :employee
-    end
-  end
-end
-postgresql_config.register_relation(Schedules)
-
-class EmployeeRepo < ROM::Repository[:employees]
-  commands :create, update: :by_pk, delete: :by_pk
-
-  def by_id(id)
-    employees.by_pk(id).one!
-  end
-
-  def by_id_with_schedules(id)
-    employees.by_pk(id).combine(:schedule).one!
-  end
-
-  def ids
-    employees.pluck(:id)
-  end
-end
-class ScheduleRepo < ROM::Repository[:schedules]
-  commands :create, update: :by_pk, delete: :by_pk
-
-  def by_id(id)
-    schedules.by_pk(id).one!
-  end
-
-  def ids
-    employees.pluck(:id)
-  end
-end
-
 # Models a simple in memory Database
-class PostgresqlDatabase
-  def initialize(config)
-    @config = config
-    @rom_container = ROM.container(config)
-    @employee_repo = EmployeeRepo.new(container: @rom_container)
-    @schedule_repo = ScheduleRepo.new(container: @rom_container)
-  end
+module Relational
+  class PostgresqlDatabase
+    def initialize(db_config = {})
+      opts = {
+          username: 'orbanbotond',
+          password: '',
+          encoding: 'UTF8',
+          host: 'localhost',
+          post: 5432,
+          database: 'simple_payroll'
+      }.merge(db_config)
 
-  def employee(id)
-    e = @employee_repo.by_id_with_schedules(id)
+      @config = ROM::Configuration.new(:sql, "postgres://#{opts[:host]}:#{opts[:port]}/#{opts[:database]}", opts)
+      @config.register_relation(Relational::Relations::Employees)
+      @config.register_relation(Relational::Relations::Schedules)
+      @config.register_relation(Relational::Relations::UnionMembers)
 
-    employee = Employee.new(e.id, e.name, e.address)
-    employee.schedule = Weekly.new if e.schedule.type == "Weekly"
-    employee.schedule = Monthly.new if e.schedule.type == "Monthly"
-    employee.schedule = Biweekly.new if e.schedule.type == "Biweekly"
-  rescue ROM::TupleCountMismatchError
-    nil
-  end
+      @rom_container = ROM.container(@config)
+      @employee_repo = Relational::Repositories::Employee.new(container: @rom_container)
+      @schedule_repo = Relational::Repositories::Schedule.new(container: @rom_container)
+      @union_repo = Relational::Repositories::UnionMember.new(container: @rom_container)
+    end
 
-  def add_employee(id, employee)
-    @employee_repo.create(id: id, name: employee.name, address: employee.address)
-    @schedule_repo.create(type: employee.schedule.class.to_s, employee_id: employee.id)
-  end
+    def employee(id)
+      e = @employee_repo.by_id_with_schedules(id)
 
-  def delete_employee(id)
-    @employee_repo.delete(id)
-  end
+      employee = Employee.new(e.id, e.name, e.address)
+      schedule_map = {'Schedules::Weekly' => Schedules::Weekly, "Schedules::Monthly" => Schedules::Monthly, "Schedules::Biweekly" => Schedules::Biweekly}
+      employee.schedule = schedule_map[e.schedule.type].new
+      employee
+    rescue ROM::TupleCountMismatchError
+      nil
+    end
 
-  def add_union_member(id, employee)
-    @members[id] = employee
-  end
+    def add_employee(id, employee)
+      @employee_repo.create_with_schedule(id: id, name: employee.name, address: employee.address, schedule: {type: employee.schedule.class.to_s})
+    end
 
-  def union_member(id)
-    @members[id]
-  end
+    def delete_employee(id)
+      @employee_repo.delete(id)
+    end
 
-  def remove_union_member(id)
-    @members.delete(id)
-  end
+    def add_union_member(id, employee)
+      @union_repo.create(id: id, employee_id: employee.id)
+    end
 
-  def all_employee_ids
-    @employee_repo.ids
+    def union_member(id)
+      @union_repo.by_id(id)
+    end
+
+    def remove_union_member(id)
+      @members.delete(id)
+    end
+
+    def all_employee_ids
+      @employee_repo.ids
+    end
   end
 end
 
 class PayrollDatabase
   def self.instance
-    @instance ||= PostgresqlDatabase.new(@config)
-  end
-
-  def self.config(postgresql_config)
-    @config = postgresql_config
+    @instance ||= Relational::PostgresqlDatabase.new
   end
 end
-
-PayrollDatabase.config(postgresql_config)
