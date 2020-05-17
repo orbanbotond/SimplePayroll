@@ -5,7 +5,7 @@ require File.join(Dir.getwd, 'test_helper')
 describe Operations::ChangeName do
   it 'should change the name of an employee' do
     id = 2
-    database = PayrollDatabase.new
+    database = Relational::PostgresqlDatabase.new
     Classifications::Hourly::Operations::AddEmployee.new(id: id, name: 'Bill', address: 'Work', rate: 20.0, database: database).execute
 
     Operations::ChangeName.new(id: id, name: 'Bob', database: database).execute

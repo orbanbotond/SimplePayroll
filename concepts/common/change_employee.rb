@@ -10,5 +10,7 @@ module ChangeEmployee
     raise "Employee #{id} Not Found" unless employee.present?
 
     change(employee)
+
+    database.update_employee(employee)
   end
 end

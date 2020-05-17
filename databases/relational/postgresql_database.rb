@@ -56,6 +56,10 @@ module Relational
       @employee_repo.create_with_schedule(id: id, name: employee.name, address: employee.address, schedule: {type: employee.schedule.class.to_s})
     end
 
+    def update_employee(employee)
+      @employee_repo.update(employee.id, name: employee.name, address: employee.address)
+    end
+
     def delete_employee(id)
       @employee_repo.delete(id)
     end
