@@ -8,6 +8,7 @@ gem 'rom-sql', '~> 3.2'
 gem 'pry'
 gem 'pry-nav'
 gem 'pg'
+gem 'zeitwerk'
 
 group :development, :test do
   gem 'minitest'

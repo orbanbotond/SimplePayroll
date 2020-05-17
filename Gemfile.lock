@@ -119,6 +119,7 @@ DEPENDENCIES
   rom
   rom-sql (~> 3.2)
   rubocop-rails
+  zeitwerk
 
 BUNDLED WITH
    1.17.2
