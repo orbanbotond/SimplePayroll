@@ -7,8 +7,6 @@ The architecture
 The simple payroll system uses a Domain Model to cover its's Business functionality.
 Beside there are Operations which create/update the Domain Model Entities.
 
-Other component is the Relational Database Persistence component which uses the repository pattern provided by the ROM-rb to persist the Objects from the Domain.
-
 The files are organized by business concepts:
  - classification
  - payment_methods
@@ -20,6 +18,9 @@ Each business concept contains:
  - the entities
  - the operations
  - it's tests.
+
+Other component is the Relational Database Persistence component which uses the repository pattern provided by the [ROM-rb](https://rom-rb.org) to persist the Objects from the Domain.
+It also contains an array/"in memory" implementation of the Persistence Layer.
 
 ---
 
