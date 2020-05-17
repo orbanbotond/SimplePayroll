@@ -3,10 +3,11 @@
 require 'rubygems'
 require 'bundler/setup'
 
-Bundler.require(:default)
+Bundler.require(  $payroll_env || :development, :default)
 
 require 'active_support/core_ext/module/delegation'
-require 'active_support/core_ext/object/blank.rb'
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/object/try'
 
 APP_ROOT = __dir__
 

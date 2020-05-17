@@ -12,5 +12,6 @@ gem 'zeitwerk'
 
 group :development, :test do
   gem 'minitest'
+  gem 'database_cleaner-sequel'
   gem 'rubocop-rails', require: false
 end

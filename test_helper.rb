@@ -1,5 +1,21 @@
 # frozen_string_literal: true
 
-require 'minitest/autorun'
+$payroll_env = :test
 require_relative 'payroll'
-# $LOAD_PATH << File.join(APP_ROOT, 'classifications', 'comissioned', 'tests')
+require "minitest/spec"
+require 'minitest/autorun'
+
+DatabaseCleaner[:sequel].strategy = :truncation
+DatabaseCleaner[:sequel].db = Sequel.connect(Relational::PostgresqlDatabase.connection_uri(Relational::PostgresqlDatabase.connection_options))
+
+module DatabaseCleanerSupport
+  def before_setup
+    super
+    DatabaseCleaner[:sequel].start
+  end
+
+  def after_teardown
+    DatabaseCleaner[:sequel].clean
+    super
+  end
+end

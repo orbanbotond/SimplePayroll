@@ -3,9 +3,11 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Classifications::Comissioned::Operations::AddEmployee do
+  include DatabaseCleanerSupport
+
   it 'should create a commissioned employee' do
     emp_id = 3
-    database = PayrollDatabase.new
+    database = Relational::PostgresqlDatabase.new
     params = { id: emp_id,
                name: 'Jim',
                address: 'Garden',

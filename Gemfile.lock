@@ -10,6 +10,10 @@ GEM
     ast (2.4.0)
     coderay (1.1.2)
     concurrent-ruby (1.1.6)
+    database_cleaner (1.8.5)
+    database_cleaner-sequel (1.8.0)
+      database_cleaner (~> 1.8.0)
+      sequel
     dry-configurable (0.11.5)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.7)
@@ -111,6 +115,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport
+  database_cleaner-sequel
   immutable-struct
   minitest
   pg

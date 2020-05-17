@@ -14,6 +14,10 @@ class PayrollDatabase
     @employees[id] = employee
   end
 
+  def update_employee(employee)
+    employee
+  end
+
   def delete_employee(id)
     @employees.delete(id)
   end

@@ -4,6 +4,8 @@ module Relational
       schema(:employees, infer: true) do
         associations do
           has_one :schedule
+          has_one :classification
+          has_one :payment_method
         end
       end
       # attribute :id, Types::Int

@@ -20,20 +20,31 @@ require 'rom-sql'
 # Models a simple in memory Database
 module Relational
   class PostgresqlDatabase
-    def initialize(db_config = {})
-      opts = {
-          username: 'orbanbotond',
-          password: '',
-          encoding: 'UTF8',
-          host: 'localhost',
-          post: 5432,
-          database: 'simple_payroll'
-      }.merge(db_config)
 
-      @config = ROM::Configuration.new(:sql, "postgres://#{opts[:host]}:#{opts[:port]}/#{opts[:database]}", opts)
+    class << self
+      def connection_options
+        opts = {
+            username: 'orbanbotond',
+            password: '',
+            encoding: 'UTF8',
+            host: 'localhost',
+            post: 5432,
+            database: 'simple_payroll'
+        }
+      end
+
+      def connection_uri(options)
+        "postgres://#{options[:username]}:#{options[:password]}@#{options[:host]}:#{options[:port]}/#{options[:database]}"
+      end
+    end
+
+    def initialize(db_config = {})
+      @config = ROM::Configuration.new(:sql,self.class.connection_uri(self.class.connection_options), db_config)
       @config.register_relation(Relational::Relations::Employees)
       @config.register_relation(Relational::Relations::Schedules)
       @config.register_relation(Relational::Relations::UnionMembers)
+      @config.register_relation(Relational::Relations::Classifications)
+      @config.register_relation(Relational::Relations::PaymentMethods)
 
       @rom_container = ROM.container(@config)
       @employee_repo = Relational::Repositories::Employee.new(container: @rom_container)
@@ -42,18 +53,35 @@ module Relational
     end
 
     def employee(id)
-      e = @employee_repo.by_id_with_schedules(id)
+      e = @employee_repo.by_id_with_all(id)
 
       employee = Employee.new(e.id, e.name, e.address)
-      schedule_map = {'Schedules::Weekly' => Schedules::Weekly, "Schedules::Monthly" => Schedules::Monthly, "Schedules::Biweekly" => Schedules::Biweekly}
+      schedule_map = {'Schedules::Weekly' => Schedules::Weekly,
+                      "Schedules::Monthly" => Schedules::Monthly,
+                      "Schedules::Biweekly" => Schedules::Biweekly}
       employee.schedule = schedule_map[e.schedule.type].new
+
+      classifications_map = {'Classifications::Comissioned::Classification' => Classifications::Comissioned::Classification,
+                             "Classifications::Hourly::Classification" => Classifications::Hourly::Classification,
+                             "Classifications::Salaried::Classification" => Classifications::Salaried::Classification}
+      employee.classification =  classifications_map[e.classification.type].new(e.classification.to_h)
+
+      payment_methods_map = {'PaymentMethods::Hold' => PaymentMethods::Hold}
+      employee.payment_method =  payment_methods_map[e.payment_method.type].new()
       employee
     rescue ROM::TupleCountMismatchError
       nil
     end
 
     def add_employee(id, employee)
-      @employee_repo.create_with_schedule(id: id, name: employee.name, address: employee.address, schedule: {type: employee.schedule.class.to_s})
+      classification = employee.classification
+      @employee_repo.create_with_all(id: id, name: employee.name, address: employee.address,
+                                            schedule: {type: employee.schedule.class.to_s},
+                                            classification: {type: classification.class.to_s,
+                                                             salary: classification.try(:salary),
+                                                             rate: classification.try(:rate)},
+                                            payment_method: {type: employee.payment_method.class.to_s}
+                                      )
     end
 
     def update_employee(employee)
