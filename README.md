@@ -23,6 +23,23 @@ Other component is the Relational Database Persistence component which uses the 
 It also contains an array/"in memory" implementation of the Persistence Layer.
 
 ---
+```puml
+@startuml
+
+DataBase -[Common]
+[Common] as Common
+[Classifications] as classifications
+classifications ..> Common : use
+[Payment Methods] ..> Common : use
+[Schedules] ..> Common : use
+[Union] ..> Common : use
+[PostgresqlDB] ..> DataBase: implements the DB interface
+
+@enduml
+
+```
+
+---
 
 The code loader is ["Zeitwerk"](https://github.com/fxn/zeitwerk "Zeitwerk") using ["Conventional File Structure"](https://github.com/fxn/zeitwerk#file-structure).
  
