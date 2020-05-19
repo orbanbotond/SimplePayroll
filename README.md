@@ -23,7 +23,7 @@ Other component is the Relational Database Persistence component which uses the 
 It also contains an array/"in memory" implementation of the Persistence Layer.
 
 ---
-![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/package)
+![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/package.md)
 ---
 
 The code loader is ["Zeitwerk"](https://github.com/fxn/zeitwerk "Zeitwerk") using ["Conventional File Structure"](https://github.com/fxn/zeitwerk#file-structure).
