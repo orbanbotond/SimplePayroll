@@ -40,6 +40,8 @@ Use Cases:
   6. Change employee details
   7. Run the payroll for today
 
+![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/use_cases.md)
+
 ---
 
 Use Case Descriptions
@@ -61,6 +63,8 @@ Alternative 1: An error in the transaction structure
 
 If the transaction structure is inappropriate, it is printed out in an
 error message, and no action is taken
+
+![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/add_employee.md)
 
 
 Use Case 2: Deleting an Employee
@@ -157,3 +161,5 @@ selected payment method. An audit-trail report is printed showing the
 action taken for each employee.
 
 Payday <date>
+
+![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/create_paychecks.md)

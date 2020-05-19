@@ -20,7 +20,9 @@ module Operations
         @paychecks[emp_id] = pay_check
         employee.payday(pay_check)
 
+=begin
         # TODO extract the payment_method.pay from the employee here...
+=end
       end
     end
 
