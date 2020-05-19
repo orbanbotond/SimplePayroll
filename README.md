@@ -49,55 +49,26 @@ Use Case Descriptions
 
 Use Case 1: Add new Employee
 -
-A new employee is added by the receipt of an AddEmp Transaction. This
+A new employee is added. This
 Transaction contains the employee's name, address, and assigned
-employee number. The transaction has three forms:
-
-1. AddEmp <emp_id> "<name>" "<address>" H <hrly-rate>
-2. AddEmp <emp_id> "<name>" "<address>" S <mtly-slry>
-3. AddEmp <emp_id> "<name>" "<address>" C <mtly-slry> <com-rate>
+employee number.
 
 The employee record is created with its fields assigned appropriately.
 
-Alternative 1: An error in the transaction structure
-
-If the transaction structure is inappropriate, it is printed out in an
-error message, and no action is taken
-
 ![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/add_employee.md)
-
 
 Use Case 2: Deleting an Employee
 -
-Employees are deleted when a DelEmp transaction is received. The form
-of this transaction is as follows:
-
-DelEmp <emp_id>
-
-When this transaction is received, trhe appropriate employee record is deleted.
-
-Alternative 1: Invalid or unknown emp_id
-
-If the <emp_id> field is not structured correctly or does not refer to
-a valid employee record, the transaction is pinted with an error
-message, and no other action is taken.
-
+Employees are deleted.
 
 Use Case 3: Post a Time Card
 -
 On receipt of a TimeCard transaction, the system will create a time
 card record an associate it with the appropriate employee record.
 
-TimeCard <emp_id> <date> <hours>
-
 Alternative 1: The selected employee is not hourly
 
-The system will print an appropriate error message and take no further action.
-
-Alternative 2: An error in the transaction structure
-
-The system will print an appropriate error message and take no further action.
-
+The system will report an error message and take no further action.
 
 Use Case 4: Post a Sales Receipt
 -
@@ -109,12 +80,7 @@ SalesReceipt <emp_id> <date> <amount>
 
 Alternative 1: The selected employee not commissioned
 
-The system will print an appropriate error message and take no further action.
-
-Alternative 2: An error in the transaction structure
-
-The system will print an appropriate error message and take no further action.
-
+The system will report an error message.
 
 Use Case 5: Post a Union Service Charge
 -
@@ -124,42 +90,15 @@ member.
 
 ServiceCharge <member_id> <amount>
 
-Alternative 1: Poorly formed transaction
-
-If the transaction is not well formed or if the <member_id> does not
-refer to an existing union member, the transaction is printed with an
-appropriate error message.
-
-
 Use Case 6: Changing Employee Details
 -
-Upon receipt of this transaction, the system will alter one of the
-details of the appropriate employee record. There are several possible
-variations to this transaction.
-
- - ChgEmp <emp_id> Name <name>                      Change employee name
- - ChgEmp <emp_id> Address <address>                Change employee address
- - ChgEmp <emp_id> Hourly <hourly-rate>             Change to hourly
- - ChgEmp <emp_id> Salaried <salary>                Change to salaried
- - ChgEmp <emp_id> Commissioned <salary> <rate>     Change to commissioned
- - ChgEmp <emp_id> Member <member_id> Dues <rate>    Put employee in union
- - ChgEmp <emp_id> NoMember                         Cut employee from union
-
-Alternative 1: Transaction errors
-
-If the structure of the transaction is improper, <emp_id> does not
-refer to a real employee, or <member_id> alreday refers to a member,
-the system will print a suitable error and take no further action.
-
+The system will alter one of the details of the appropriate employee record.
 
 Use Case 7: Run the Payroll for today
 -
 On receipt of the payday transaction, the system finds all those
 employees that should be paid on the specified date. The system then
 determines how much they are owed and pays them according to ther
-selected payment method. An audit-trail report is printed showing the
-action taken for each employee.
-
-Payday <date>
+selected payment method.
 
 ![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/create_paychecks.md)
