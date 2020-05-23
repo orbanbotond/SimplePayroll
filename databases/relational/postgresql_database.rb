@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'rom-sql'
+require 'yaml'
 
 # config->container
 # relation -> schema/commands
@@ -23,18 +24,13 @@ module Relational
 
     class << self
       def connection_options
-        opts = {
-            username: 'orbanbotond',
-            password: '',
-            encoding: 'UTF8',
-            host: 'localhost',
-            post: 5432,
-            database: 'simple_payroll'
-        }
+        db_config_file_location =  File.join APP_ROOT, 'databases', 'relational', 'database.yml'
+        db_config = YAML.load File.read(db_config_file_location)
+        db_config[$payroll_env.to_s]
       end
 
       def connection_uri(options)
-        "postgres://#{options[:username]}:#{options[:password]}@#{options[:host]}:#{options[:port]}/#{options[:database]}"
+        "postgres://#{options['username']}:#{options['password']}@#{options['host']}:#{options['port']}/#{options['database']}"
       end
     end
 

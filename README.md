@@ -102,3 +102,13 @@ determines how much they are owed and pays them according to ther
 selected payment method.
 
 ![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/create_paychecks.md)
+---
+Development roadmap:
+--
+![alt text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/orbanbotond/SimplePayroll/master/diagrams/gantt.md)
+---
+ Rake Tasks:
+  - Reseting the test environment: `environment=test rake db:reset` 
+  - Reseting the dev environment: `rake db:reset` 
+  - Clean the our db modifications: `rake db:clean`, note: this only drops the tables listed in our migrations. (rom is a repository it assumes that there could be other things in the DB. let's leave those unchanged.) 
+  

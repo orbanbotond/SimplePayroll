@@ -1,0 +1,11 @@
+require 'rom/sql/rake_task'
+require_relative 'payroll'
+
+namespace :db do
+  task :setup do
+    connection_uri = Relational::PostgresqlDatabase.connection_uri(Relational::PostgresqlDatabase.connection_options)
+
+    config = ROM::Configuration.new(:sql, connection_uri, {})
+    ROM::SQL::RakeSupport.env = ROM.container(config)
+  end
+end

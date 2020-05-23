@@ -1,0 +1,15 @@
+development:
+  username: 'orbanbotond'
+  password: ''
+  encoding: 'UTF8'
+  host: 'localhost'
+  post: 5432
+  database: 'simple_payroll_development'
+
+test:
+  username: 'orbanbotond'
+  password: ''
+  encoding: 'UTF8'
+  host: 'localhost'
+  post: 5432
+  database: 'simple_payroll_test'

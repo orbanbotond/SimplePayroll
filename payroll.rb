@@ -3,7 +3,9 @@
 require 'rubygems'
 require 'bundler/setup'
 
-Bundler.require(  $payroll_env || :development, :default)
+$payroll_env ||= ENV["environment"  ] || :development
+
+Bundler.require(  $payroll_env, :default)
 
 require 'active_support/core_ext/module/delegation'
 require 'active_support/core_ext/object/blank'
