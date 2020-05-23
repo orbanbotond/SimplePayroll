@@ -26,7 +26,7 @@ module Relational
       def connection_options
         db_config_file_location =  File.join APP_ROOT, 'databases', 'relational', 'database.yml'
         db_config = YAML.load File.read(db_config_file_location)
-        db_config[$payroll_env.to_s]
+        db_config[$payroll_environment.to_s]
       end
 
       def connection_uri(options)

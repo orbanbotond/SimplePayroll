@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-$payroll_env = :test
+$payroll_environment = :test
 require_relative 'payroll'
 require "minitest/spec"
 require 'minitest/autorun'
