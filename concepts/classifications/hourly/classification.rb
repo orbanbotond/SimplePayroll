@@ -3,7 +3,9 @@
 # Models the Hourly Payment
 module Classifications
   module Hourly
-    Classification = ImmutableStruct.new(:rate) do
+    Classification = ImmutableStruct.new(:id, :rate) do
+      attr_accessor :id
+
       def timecards
         @timecards ||= {}
       end

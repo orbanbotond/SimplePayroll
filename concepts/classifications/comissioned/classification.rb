@@ -3,7 +3,9 @@
 # Models the CommissionedClassification of the employee
 module Classifications
   module Comissioned
-    Classification = ImmutableStruct.new(:salary, :rate) do
+    Classification = ImmutableStruct.new(:id, :salary, :rate) do
+      attr_accessor :id
+
       def receipts
         @receipts ||= []
       end
@@ -18,6 +20,8 @@ module Classifications
 
       def calculate_pay(pay_check)
         range = ((pay_check.start_date)..(pay_check.pay_date))
+        # TODO here we can do a DB access
+        # TODO then query this directly from the DB
         sales_for_period = receipts.select do |sale|
           range.member? sale.date
         end

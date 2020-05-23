@@ -3,6 +3,8 @@
 # Models the Monthly of Payment
 module Schedules
   class Monthly
+    attr_accessor :id
+
     def pay_date?(date)
       last_day_of_month?(date)
     end

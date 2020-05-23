@@ -10,7 +10,6 @@ namespace :db do
   end
 
   # task :drop do
-  #   binding.pry
   #   Sequel.connect(Relational::PostgresqlDatabase.connection_uri(Relational::PostgresqlDatabase.connection_options.reject{|k,v|k == 'database'})) do |db|
   #     db.execute "DROP DATABASE IF EXISTS #{Relational::PostgresqlDatabase.connection_options['database']}"
   #   end

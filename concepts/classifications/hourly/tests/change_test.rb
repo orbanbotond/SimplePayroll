@@ -3,9 +3,11 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Classifications::Hourly::Operations::Change do
+  include DatabaseCleanerSupport
+
   it 'should change an employees classifications to hourly' do
     id = 9
-    database = PayrollDatabase.new
+    database =  Relational::PostgresqlDatabase.new
     operation = Classifications::Comissioned::Operations::AddEmployee.new(id: id, name: 'Bill', address: 'Home', salary: 1000, rate: 3.0, database: database)
     operation.execute
 

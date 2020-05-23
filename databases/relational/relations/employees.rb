@@ -6,8 +6,10 @@ module Relational
           has_one :schedule
           has_one :classification
           has_one :payment_method
+          has_one :union_membership
         end
       end
+      
       # attribute :id, Types::Int
       # attribute :name, Types::String
       # attribute :address, Types::String

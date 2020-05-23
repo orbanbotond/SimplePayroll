@@ -3,9 +3,11 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Classifications::Comissioned::Operations::AddSalesReceipt do
+  include DatabaseCleanerSupport
+
   it 'should add a sales receipt to an employee' do
     id = 6
-    database = PayrollDatabase.new
+    database = Relational::PostgresqlDatabase.new
     params = { id: id,
                name: 'Jim',
                address: 'Garden',
@@ -19,11 +21,11 @@ describe Classifications::Comissioned::Operations::AddSalesReceipt do
     employee = database.employee(id)
     employee.wont_be_nil
 
-    pay_check = employee.classification
-    pay_check.must_be_kind_of Classifications::Comissioned::Classification
+    classification = employee.classification
+    classification.must_be_kind_of Classifications::Comissioned::Classification
 
-    srs = pay_check.sales_receipts
-    srs.first.amount.must_equal 500
-    srs.first.date.must_equal Date.new(2005, 3, 30)
+    receipts = classification.sales_receipts
+    receipts.first.amount.must_equal 500
+    receipts.first.date.must_equal Time.new(2005, 3, 30)
   end
 end

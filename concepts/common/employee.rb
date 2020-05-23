@@ -2,7 +2,7 @@
 
 # Models an employee
 class Employee
-  attr_reader :id
+  attr_accessor :id
   attr_accessor :classification, :schedule, :payment_method, :affiliation, :name, :address
 
   def initialize(id, name, address)

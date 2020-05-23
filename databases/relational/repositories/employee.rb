@@ -6,7 +6,7 @@ module Relational
       def create_with_all(employee)
         employees.combine(:schedule)
             .combine(:classification)
-            .combine(:payment_methods)
+            .combine(:payment_methods) # TODO why plural?
             .command(:create)
             .call(employee)
       end
@@ -15,10 +15,17 @@ module Relational
         employees.by_pk(id).one!
       end
 
+      def by_union_membership_id(id)
+        # employees.join(:union_memberships) do |employees:, union_memberships:|
+        #   employees[:id].is(union_memberships[:employee_id]) & union_memberships[:id].is(id)
+        # end.one
+        employees.join(:union_memberships).where{|union_memberships:|union_memberships[:id].is(id)}.one
+      end
+
       def by_id_with_all(id)
         employees.by_pk(id)
             .combine(:schedule)
-            .combine(:classification)
+            .combine(classification: [:sales_receipts, :time_cards])
             .combine(:payment_method)
             .one!
       end

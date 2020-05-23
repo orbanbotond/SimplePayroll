@@ -10,7 +10,9 @@ module Classifications
           raise 'No Employee Found' unless employee.present?
 
           comissioned = employee.classification
-          comissioned.add_sales_receipt(SalesReceipt.new(date: date, amount: amount))
+          receipt = SalesReceipt.new(date: date, amount: amount)
+          database.add_receipt(comissioned, receipt)
+          comissioned.add_sales_receipt(receipt)
         end
       end
     end

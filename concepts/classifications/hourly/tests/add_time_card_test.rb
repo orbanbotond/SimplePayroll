@@ -3,6 +3,8 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Classifications::Hourly::Operations::AddTimeCard do
+  include DatabaseCleanerSupport
+
   it 'should add a timecard to an employee' do
     id = 5
     database = PayrollDatabase.new

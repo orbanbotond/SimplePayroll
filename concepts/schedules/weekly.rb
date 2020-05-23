@@ -3,6 +3,8 @@
 # Models the Weekly
 module Schedules
   class Weekly
+    attr_accessor :id
+
     def pay_date?(date)
       date.friday?
     end

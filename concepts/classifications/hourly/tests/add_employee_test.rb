@@ -3,9 +3,11 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Classifications::Hourly::Operations::AddEmployee do
+  include DatabaseCleanerSupport
+
   it 'should create an hourly employee' do
     id = 2
-    database = PayrollDatabase.new
+    database = Relational::PostgresqlDatabase.new
 
     t = Classifications::Hourly::Operations::AddEmployee.new(id: id, name: 'John', address: 'Work', rate: 20.0, database: database)
     t.execute

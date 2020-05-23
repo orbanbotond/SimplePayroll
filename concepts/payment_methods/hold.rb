@@ -3,6 +3,8 @@
 # Models A Hold Payment Method
 module PaymentMethods
   class Hold
+    attr_accessor :id
+
     def disposition
       'Hold'
     end

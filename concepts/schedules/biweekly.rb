@@ -3,6 +3,8 @@
 # Models the Biweekly
 module Schedules
   class Biweekly
+    attr_accessor :id
+
     def pay_date?(date)
       date.cweek.even? && date.friday?
     end
