@@ -54,10 +54,15 @@ module Relational
       @receipts_repo = Relational::Repositories::SalesReceipt.new(container: @rom_container)
       @classification_repo = Relational::Repositories::Classification.new(container: @rom_container)
       @service_charge_repo = Relational::Repositories::ServiceCharge.new(container: @rom_container)
+      @time_card_repo = Relational::Repositories::TimeCard.new(container: @rom_container)
     end
 
     def add_service_charge(union_member_id, service_charge)
       @service_charge_repo.create(union_membership_id: union_member_id, date: service_charge.date, charge: service_charge.charge)
+    end
+
+    def add_time_card(hourly_classification, time_card)
+      @time_card_repo.create(classification_id: hourly_classification.id, date: time_card.date, hours: time_card.hours)
     end
 
     def employee(id)

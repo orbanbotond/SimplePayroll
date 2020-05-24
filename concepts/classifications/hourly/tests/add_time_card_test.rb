@@ -7,7 +7,7 @@ describe Classifications::Hourly::Operations::AddTimeCard do
 
   it 'should add a timecard to an employee' do
     id = 5
-    database = PayrollDatabase.new
+    database = Relational::PostgresqlDatabase.new
     operation = Classifications::Hourly::Operations::AddEmployee.new(id: id, name: 'Bill', address: 'Home', rate: 15.25, database: database)
     operation.execute
 

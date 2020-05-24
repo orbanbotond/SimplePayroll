@@ -26,6 +26,6 @@ describe Classifications::Comissioned::Operations::AddSalesReceipt do
 
     receipts = classification.sales_receipts
     receipts.first.amount.must_equal 500
-    receipts.first.date.must_equal Time.new(2005, 3, 30)
+    receipts.first.date.must_equal Date.new(2005, 3, 30)
   end
 end

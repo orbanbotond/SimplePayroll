@@ -17,15 +17,15 @@ describe Union::Operations::AddServiceCharge do
     Union::Operations::AddServiceCharge.new(member_id: member_id, date: Date.new(2005, 8, 3), charge: 9.95, database: database).execute
 
     employee = database.employee(id)
-    service_charge = employee.affiliation.service_charge(Time.new(2005, 8, 8))
+    service_charge = employee.affiliation.service_charge(Date.new(2005, 8, 8))
     service_charge.wont_be_nil
     service_charge.charge.must_be_close_to 12.95
-    service_charge.date.must_equal Time.new(2005, 8, 8)
-    service_charge = employee.affiliation.service_charge(Time.new(2005, 8, 3))
+    service_charge.date.must_equal Date.new(2005, 8, 8)
+    service_charge = employee.affiliation.service_charge(Date.new(2005, 8, 3))
     service_charge.wont_be_nil
     service_charge.charge.must_be_close_to 9.95
-    service_charge.date.must_equal Time.new(2005, 8, 3)
-    service_charge = employee.affiliation.service_charge(Time.new(2005, 8, 2))
+    service_charge.date.must_equal Date.new(2005, 8, 3)
+    service_charge = employee.affiliation.service_charge(Date.new(2005, 8, 2))
     service_charge.must_be_nil
   end
 end

@@ -54,7 +54,7 @@ describe Operations::CreatePaychecks do
       id = 16
       Classifications::Hourly::Operations::AddEmployee.new(id: id, name: 'Bill', address: 'Home', rate: 15.25, database: database).execute
 
-      pay_date = Time.new(2001, 11, 9)
+      pay_date = Date.new(2001, 11, 9)
       Classifications::Hourly::Operations::AddTimeCard.new(date: pay_date, hours: 2.0, id: id, database: database).execute
 
       payday = Operations::CreatePaychecks.new(pay_date, database)

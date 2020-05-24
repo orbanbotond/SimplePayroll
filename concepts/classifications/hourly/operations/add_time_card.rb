@@ -10,7 +10,9 @@ module Classifications
           raise 'No Employee Found' unless employee.present?
 
           hourly_classification = employee.classification
-          hourly_classification.add_time_card(TimeCard.new(date: date, hours: hours))
+          time_card = TimeCard.new(date: date, hours: hours)
+          hourly_classification.add_time_card(time_card)
+          database.add_time_card(hourly_classification, time_card)
         end
       end
     end

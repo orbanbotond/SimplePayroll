@@ -5,7 +5,7 @@ ROM::SQL.migration do
     create_table :time_cards do
       primary_key :id
       foreign_key :classification_id, :classifications, on_delete: :cascade, on_update: :cascade
-      column :date, DateTime, null: false
+      column :date, Date, null: false
       column :hours, Integer, null: false
     end
   end
