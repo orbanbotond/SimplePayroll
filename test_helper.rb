@@ -2,7 +2,7 @@
 
 $payroll_environment = :test
 require_relative 'payroll'
-require "minitest/spec"
+require 'minitest/spec'
 require 'minitest/autorun'
 
 DatabaseCleaner[:sequel].strategy = :truncation

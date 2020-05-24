@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Relations
     class ServiceCharges < ROM::Relation[:sql]
@@ -9,5 +11,3 @@ module Relational
     end
   end
 end
-
-

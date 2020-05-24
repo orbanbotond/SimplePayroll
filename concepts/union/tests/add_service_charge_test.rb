@@ -7,7 +7,7 @@ describe Union::Operations::AddServiceCharge do
 
   it 'should create a service for an employee' do
     id = 7
-    database =  Relational::PostgresqlDatabase.new
+    database = Relational::PostgresqlDatabase.new
     Classifications::Hourly::Operations::AddEmployee.new(id: id, name: 'Bill', address: 'Home', rate: 15.25, database: database).execute
 
     member_id = 86

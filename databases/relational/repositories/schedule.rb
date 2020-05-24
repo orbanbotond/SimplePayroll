@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Repositories
     class Schedule < ROM::Repository[:schedules]

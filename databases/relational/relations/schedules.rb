@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Relations
     class Schedules < ROM::Relation[:sql]

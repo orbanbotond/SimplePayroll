@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rom-sql'
 require 'yaml'
 
@@ -20,11 +21,10 @@ require 'yaml'
 
 module Relational
   class PostgresqlDatabase
-
     class << self
       def connection_options
-        db_config_file_location =  File.join APP_ROOT, 'databases', 'relational', 'database.yml'
-        db_config = YAML.load File.read(db_config_file_location)
+        db_config_file_location = File.join APP_ROOT, 'databases', 'relational', 'database.yml'
+        db_config = YAML.safe_load File.read(db_config_file_location)
         db_config[$payroll_environment.to_s]
       end
 
@@ -36,7 +36,7 @@ module Relational
     attr_reader :schedule_repo, :classification_repo
 
     def initialize(db_config = {})
-      @config = ROM::Configuration.new(:sql,self.class.connection_uri(self.class.connection_options), db_config)
+      @config = ROM::Configuration.new(:sql, self.class.connection_uri(self.class.connection_options), db_config)
       @config.register_relation(Relational::Relations::Employees)
       @config.register_relation(Relational::Relations::Schedules)
       @config.register_relation(Relational::Relations::UnionMembers)
@@ -74,12 +74,11 @@ module Relational
     def add_employee(id, employee)
       classification = employee.classification
       @employee_repo.create_with_all(id: id, name: employee.name, address: employee.address,
-                                            schedule: {type: employee.schedule.class.to_s},
-                                            classification: {type: classification.class.to_s,
-                                                             salary: classification.try(:salary),
-                                                             rate: classification.try(:rate)},
-                                            payment_method: {type: employee.payment_method.class.to_s}
-                                      )
+                                     schedule: { type: employee.schedule.class.to_s },
+                                     classification: { type: classification.class.to_s,
+                                                       salary: classification.try(:salary),
+                                                       rate: classification.try(:rate) },
+                                     payment_method: { type: employee.payment_method.class.to_s })
     end
 
     def update_employee(employee)

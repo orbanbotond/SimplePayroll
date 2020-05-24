@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Repositories
     class TimeCard < ROM::Repository[:time_cards]

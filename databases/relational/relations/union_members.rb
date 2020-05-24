@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Relations
     class UnionMembers < ROM::Relation[:sql]
@@ -10,5 +12,3 @@ module Relational
     end
   end
 end
-
-

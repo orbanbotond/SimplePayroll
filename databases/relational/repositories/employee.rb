@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Repositories
     class Employee < ROM::Repository[:employees]
@@ -5,10 +7,10 @@ module Relational
 
       def create_with_all(employee)
         employees.combine(:schedule)
-            .combine(:classification)
-            .combine(:payment_method)
-            .command(:create)
-            .call(employee)
+                 .combine(:classification)
+                 .combine(:payment_method)
+                 .command(:create)
+                 .call(employee)
       end
 
       def by_id(id)
@@ -19,15 +21,15 @@ module Relational
         # e = employees.join(:union_memberships)
         #         .where{|union_memberships:|union_memberships[:id].is(id)}.one
         e = employees.wrap(:union_memberships)
-                .where{|union_memberships:|union_memberships[:id].is(id)}
+                     .where { |union_memberships:| union_memberships[:id].is(id) }
       end
 
       def by_id_with_all(id)
         employees.by_pk(id)
-            .combine(:schedule)
-            .combine(classification: [:sales_receipts, :time_cards])
-            .combine(:payment_method)
-            .combine(union_membership: :service_charges)
+                 .combine(:schedule)
+                 .combine(classification: %i[sales_receipts time_cards])
+                 .combine(:payment_method)
+                 .combine(union_membership: :service_charges)
       end
 
       def ids

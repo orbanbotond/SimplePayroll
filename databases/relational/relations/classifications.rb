@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Relational
   module Relations
     class Classifications < ROM::Relation[:sql]
@@ -15,5 +17,3 @@ module Relational
     end
   end
 end
-
-
