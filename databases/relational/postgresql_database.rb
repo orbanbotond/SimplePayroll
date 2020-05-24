@@ -46,7 +46,9 @@ module Relational
       @config.register_relation(Relational::Relations::SalesReceipts)
       @config.register_relation(Relational::Relations::TimeCards)
       @config.register_relation(Relational::Relations::ServiceCharges)
+
       @config.register_mapper(Relational::Mappers::UnionMember)
+      @config.register_mapper(Relational::Mappers::ComplexEmployee)
 
       @rom_container = ROM.container(@config)
       @employee_repo = Relational::Repositories::Employee.new(container: @rom_container)
@@ -67,40 +69,7 @@ module Relational
     end
 
     def employee(id)
-      e = @employee_repo.by_id_with_all(id)
-      employee = Employee.new(id: e.id, name: e.name, address: e.address)
-      schedule_map = {'Schedules::Weekly' => Schedules::Weekly,
-                      "Schedules::Monthly" => Schedules::Monthly,
-                      "Schedules::Biweekly" => Schedules::Biweekly}
-      employee.schedule = schedule_map[e.schedule.type].new
-      employee.schedule.id = e.schedule.id
-
-      # TODO try to put this into the schema mapper!
-      classifications_map = {'Classifications::Comissioned::Classification' => Classifications::Comissioned::Classification,
-                             "Classifications::Hourly::Classification" => Classifications::Hourly::Classification,
-                             "Classifications::Salaried::Classification" => Classifications::Salaried::Classification}
-      employee.classification =  classifications_map[e.classification.type].new(e.classification.to_h)
-      e.classification.sales_receipts.each do |receipt|
-        employee.classification.add_sales_receipt(receipt)
-      end
-      e.classification.time_cards.each do |time_cards|
-        employee.classification.add_time_card(time_cards)
-      end
-
-      if(e.union_membership.present?)
-        employee.affiliation = Union::Affiliation.new(member_id: e.union_membership.id, dues: e.union_membership.dues)
-        e.union_membership.service_charges.each do |service_charge|
-          employee.affiliation.add_service_charge(Union::ServiceCharge.new(service_charge.date, service_charge.charge))
-        end
-      else
-        employee.affiliation = Union::NoAffiliation.new
-      end
-
-      payment_methods_map = {'PaymentMethods::Hold' => PaymentMethods::Hold}
-      employee.payment_method =  payment_methods_map[e.payment_method.type].new()
-      employee
-    rescue ROM::TupleCountMismatchError
-      nil
+      @employee_repo.by_id_with_all(id).map_with(:employee_with_everything_mapper).first
     end
 
     def add_employee(id, employee)
@@ -137,11 +106,7 @@ module Relational
     def all_employee_ids
       @employee_repo.ids
     end
-
-    # def sales_receipts(classification)
-    #   @receipts_repo.by_classification_id(classification.id)
-    # end
-
+    
     def add_receipt(classification, receipt)
       @receipts_repo.create(classification_id: classification.id, date: receipt.date, amount: receipt.amount)
     end

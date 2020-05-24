@@ -28,7 +28,6 @@ module Relational
             .combine(classification: [:sales_receipts, :time_cards])
             .combine(:payment_method)
             .combine(union_membership: :service_charges)
-            .one!
       end
 
       def ids
