@@ -15,7 +15,7 @@ module Union
       end
 
       def record_membership(employee)
-        database.add_union_member(member_id, employee)
+        database.add_union_member(member_id, employee, dues)
       end
     end
   end

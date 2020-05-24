@@ -9,8 +9,8 @@ module Union
       include ChangeAffiliation
 
       def record_membership(employee)
-        affiliation = employee.affiliation
-        database.remove_union_member(affiliation.member_id)
+        old_affiliation = employee.affiliation
+        database.remove_union_member(old_affiliation.member_id)
       end
 
       def make_affiliation

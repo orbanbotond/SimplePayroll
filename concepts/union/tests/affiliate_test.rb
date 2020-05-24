@@ -3,9 +3,11 @@
 require File.join(Dir.getwd, 'test_helper')
 
 describe Union::Operations::Affiliate do
+  include DatabaseCleanerSupport
+
   it 'should change an employee to have a union affiliation' do
     id = 12
-    database = PayrollDatabase.new
+    database = Relational::PostgresqlDatabase.new
     operation = Classifications::Hourly::Operations::AddEmployee.new(id: id, name: 'Bill', address: 'Home', rate: 2.5, database: database)
     operation.execute
 
@@ -17,10 +19,12 @@ describe Union::Operations::Affiliate do
 
     affiliation = employee.affiliation
     affiliation.wont_be_nil
+    affiliation.must_be_kind_of Union::Affiliation
+
     affiliation.dues.must_be_close_to 99.42, 0.001
 
     member = database.union_member(member_id)
     member.wont_be_nil
-    member.must_equal employee
+    member.id.must_equal employee.id
   end
 end

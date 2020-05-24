@@ -4,6 +4,7 @@ module Relational
       schema(:union_memberships, infer: true) do
         associations do
           belongs_to :employee
+          has_many :service_charges
         end
       end
     end

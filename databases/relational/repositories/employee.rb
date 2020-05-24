@@ -16,10 +16,10 @@ module Relational
       end
 
       def by_union_membership_id(id)
-        # employees.join(:union_memberships) do |employees:, union_memberships:|
-        #   employees[:id].is(union_memberships[:employee_id]) & union_memberships[:id].is(id)
-        # end.one
-        employees.join(:union_memberships).where{|union_memberships:|union_memberships[:id].is(id)}.one
+        # e = employees.join(:union_memberships)
+        #         .where{|union_memberships:|union_memberships[:id].is(id)}.one
+        e = employees.wrap(:union_memberships)
+                .where{|union_memberships:|union_memberships[:id].is(id)}.one
       end
 
       def by_id_with_all(id)
@@ -27,6 +27,7 @@ module Relational
             .combine(:schedule)
             .combine(classification: [:sales_receipts, :time_cards])
             .combine(:payment_method)
+            .combine(union_membership: :service_charges)
             .one!
       end
 

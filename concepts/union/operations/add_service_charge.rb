@@ -7,7 +7,10 @@ module Union
       def execute
         employee = database.union_member(member_id)
         union_affiliation = employee.affiliation
-        union_affiliation.add_service_charge(ServiceCharge.new(date, charge))
+        service_charge = ServiceCharge.new(date, charge)
+        union_affiliation.add_service_charge(service_charge)
+        persisted_service_charge = database.add_service_charge(member_id, service_charge)
+        # service_charge.id = persisted_service_charge.id
       end
     end
   end

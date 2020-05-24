@@ -45,6 +45,7 @@ module Relational
       @config.register_relation(Relational::Relations::PaymentMethods)
       @config.register_relation(Relational::Relations::SalesReceipts)
       @config.register_relation(Relational::Relations::TimeCards)
+      @config.register_relation(Relational::Relations::ServiceCharges)
 
       @rom_container = ROM.container(@config)
       @employee_repo = Relational::Repositories::Employee.new(container: @rom_container)
@@ -52,6 +53,11 @@ module Relational
       @union_repo = Relational::Repositories::UnionMember.new(container: @rom_container)
       @receipts_repo = Relational::Repositories::SalesReceipt.new(container: @rom_container)
       @classification_repo = Relational::Repositories::Classification.new(container: @rom_container)
+      @service_charge_repo = Relational::Repositories::ServiceCharge.new(container: @rom_container)
+    end
+
+    def add_service_charge(union_member_id, service_charge)
+      @service_charge_repo.create(union_membership_id: union_member_id, date: service_charge.date, charge: service_charge.charge)
     end
 
     def employee(id)
@@ -73,6 +79,15 @@ module Relational
       end
       e.classification.time_cards.each do |time_cards|
         employee.classification.add_time_card(time_cards)
+      end
+
+      if(e.union_membership.present?)
+        employee.affiliation = Union::Affiliation.new(member_id: e.union_membership.id, dues: e.union_membership.dues)
+        e.union_membership.service_charges.each do |service_charge|
+          employee.affiliation.add_service_charge(Union::ServiceCharge.new(service_charge.date, service_charge.charge))
+        end
+      else
+        employee.affiliation = Union::NoAffiliation.new
       end
 
       payment_methods_map = {'PaymentMethods::Hold' => PaymentMethods::Hold}
@@ -101,17 +116,23 @@ module Relational
       @employee_repo.delete(id)
     end
 
-    def add_union_member(id, employee)
-      @union_repo.create(id: id, employee_id: employee.id)
+    def add_union_member(id, employee, dues)
+      @union_repo.create(id: id, employee_id: employee.id, dues: dues)
     end
 
     def union_member(id)
       e = @employee_repo.by_union_membership_id(id)
-      employee = Employee.new(e.id, e.name, e.address)
+      if e.present?
+        employee = Employee.new(e.id, e.name, e.address)
+        employee.affiliation = Union::Affiliation.new(member_id: e.union_membership.id, dues: e.union_membership.dues)
+        employee
+      else
+        nil
+      end
     end
 
     def remove_union_member(id)
-      @members.delete(id)
+      @union_repo.delete(id)
     end
 
     def all_employee_ids
