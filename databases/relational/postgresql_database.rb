@@ -46,6 +46,7 @@ module Relational
       @config.register_relation(Relational::Relations::SalesReceipts)
       @config.register_relation(Relational::Relations::TimeCards)
       @config.register_relation(Relational::Relations::ServiceCharges)
+      @config.register_mapper(Relational::Mappers::UnionMember)
 
       @rom_container = ROM.container(@config)
       @employee_repo = Relational::Repositories::Employee.new(container: @rom_container)
@@ -67,7 +68,7 @@ module Relational
 
     def employee(id)
       e = @employee_repo.by_id_with_all(id)
-      employee = Employee.new(e.id, e.name, e.address)
+      employee = Employee.new(id: e.id, name: e.name, address: e.address)
       schedule_map = {'Schedules::Weekly' => Schedules::Weekly,
                       "Schedules::Monthly" => Schedules::Monthly,
                       "Schedules::Biweekly" => Schedules::Biweekly}
@@ -126,14 +127,7 @@ module Relational
     end
 
     def union_member(id)
-      e = @employee_repo.by_union_membership_id(id)
-      if e.present?
-        employee = Employee.new(e.id, e.name, e.address)
-        employee.affiliation = Union::Affiliation.new(member_id: e.union_membership.id, dues: e.union_membership.dues)
-        employee
-      else
-        nil
-      end
+      @employee_repo.by_union_membership_id(id).map_with(:employee_with_union_mapper).first
     end
 
     def remove_union_member(id)

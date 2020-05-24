@@ -11,7 +11,7 @@ module AddEmployee
   attr_accessor :id
 
   def execute
-    employee = Employee.new(id, name, address)
+    employee = Employee.new(id: id, name: name, address: address)
     employee.classification = make_classification
     employee.schedule = make_schedule
     employee.payment_method = PaymentMethods::Hold.new

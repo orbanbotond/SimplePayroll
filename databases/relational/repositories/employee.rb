@@ -19,7 +19,7 @@ module Relational
         # e = employees.join(:union_memberships)
         #         .where{|union_memberships:|union_memberships[:id].is(id)}.one
         e = employees.wrap(:union_memberships)
-                .where{|union_memberships:|union_memberships[:id].is(id)}.one
+                .where{|union_memberships:|union_memberships[:id].is(id)}
       end
 
       def by_id_with_all(id)

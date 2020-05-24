@@ -5,11 +5,11 @@ class Employee
   attr_accessor :id
   attr_accessor :classification, :schedule, :payment_method, :affiliation, :name, :address
 
-  def initialize(id, name, address)
+  def initialize(id:, name:, address:, affiliation: Union::NoAffiliation.new)
     @id = id
     @name = name
     @address = address
-    @affiliation = Union::NoAffiliation.new
+    @affiliation = affiliation
   end
 
   delegate :pay_date?, to: :schedule
