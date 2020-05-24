@@ -19,12 +19,12 @@ module ChangeClassification
     # Future version
     # mark the old classifications and the old schedules inactive
     # add a new entry
-    database.classification_repo.update(old_classification_id,
+    database.update_classification(old_classification_id,
                                         type: employee.classification.class.to_s,
                                         salary: employee.classification.try(:salary),
                                         rate: employee.classification.try(:rate))
 
-    database.schedule_repo.update(old_schedule_id,
+    database.update_schedule(old_schedule_id,
                                   type: employee.schedule.class.to_s)
   end
 end

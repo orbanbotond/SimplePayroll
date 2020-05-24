@@ -18,7 +18,6 @@ require 'yaml'
 #   column :employee_id, String, null: false
 # end
 
-# Models a simple in memory Database
 module Relational
   class PostgresqlDatabase
 
@@ -106,9 +105,17 @@ module Relational
     def all_employee_ids
       @employee_repo.ids
     end
-    
+
     def add_receipt(classification, receipt)
       @receipts_repo.create(classification_id: classification.id, date: receipt.date, amount: receipt.amount)
+    end
+
+    def update_schedule(id, type:)
+      @schedule_repo.update(id, type: type)
+    end
+
+    def update_classification(id, type:, salary:, rate:)
+      @classification_repo.update(id, type: type, salary: salary, rate: rate)
     end
   end
 end
