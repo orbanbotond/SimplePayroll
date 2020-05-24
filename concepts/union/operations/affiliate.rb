@@ -6,7 +6,6 @@ require_relative '../affiliation'
 # Business Logic Which Changes the Employee Affiliation to UnionMember
 module Union
   module Operations
-    # TODO: investigate why dues is in plural
     Affiliate = ImmutableStruct.new(:id, :member_id, :dues, :database) do
       include ChangeAffiliation
 

@@ -6,7 +6,7 @@ module Relational
       def create_with_all(employee)
         employees.combine(:schedule)
             .combine(:classification)
-            .combine(:payment_methods) # TODO why plural?
+            .combine(:payment_method)
             .command(:create)
             .call(employee)
       end

@@ -18,11 +18,7 @@ module Operations
         start_date = employee.get_pay_period_start_date(@pay_date)
         pay_check = Paycheck.new(start_date, @pay_date)
         @paychecks[emp_id] = pay_check
-        employee.payday(pay_check)
-
-=begin
-        # TODO extract the payment_method.pay from the employee here...
-=end
+        employee.pay(pay_check)
       end
     end
 

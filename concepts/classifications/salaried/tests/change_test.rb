@@ -25,5 +25,6 @@ describe Classifications::Salaried::Operations::Change do
     payment_schedule = employee.schedule
     payment_schedule.must_be_kind_of Schedules::Monthly
   end
-  # TODO: check that the old payment time works well and the new classifications also works.
+  # TODO:
+  # check if the new classification will processed in the next cycle only
 end

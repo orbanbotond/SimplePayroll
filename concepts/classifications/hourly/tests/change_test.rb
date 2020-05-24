@@ -26,6 +26,7 @@ describe Classifications::Hourly::Operations::Change do
     ps.must_be_kind_of Schedules::Weekly
   end
   # TODO: add more tests
-  #
+  # One hypothetical scenario would be to block the change if there are time sheets submitted
+  # or to keep the old then add for the next billing cycle
   # for checking that the old payment time works well and the new classifications also works.
 end

@@ -26,7 +26,7 @@ describe Classifications::Comissioned::Operations::Change do
     schedule.must_be_kind_of Schedules::Biweekly
   end
   # TODO: add more tests for checking the before after changes
+  # One hypothetical scenario would be to block the change if there are sales receipts submitted
   # check if the old classification stayed in place
-  # check if the new classification is active
-  # check that only the new classification is active
+  # check if the new classification will processed in the next cycle only
 end

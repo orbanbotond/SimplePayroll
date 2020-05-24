@@ -20,8 +20,7 @@ module Classifications
 
       def calculate_pay(pay_check)
         range = ((pay_check.start_date)..(pay_check.pay_date))
-        # TODO here we can do a DB access
-        # TODO then query this directly from the DB
+        # TODO here we could narrow down the list to unprocessed receipts
         sales_for_period = receipts.select do |sale|
           range.member? sale.date
         end

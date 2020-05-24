@@ -11,8 +11,6 @@ module Classifications
           Classification.new(salary: salary, rate: rate)
         end
 
-        # @todo why biweekly? should that aspect be independent of the commissions?
-        # this seems like a hard wired rule
         def make_schedule
           Schedules::Biweekly.new
         end

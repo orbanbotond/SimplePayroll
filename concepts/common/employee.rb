@@ -16,15 +16,13 @@ class Employee
 
   delegate :get_pay_period_start_date, to: :schedule
 
-  # TODO rename fill_check
-  def payday(pay_check)
+  def pay(pay_check)
     pay = classification.calculate_pay(pay_check)
     deductions = affiliation.calculate_deductions(pay_check)
     pay_check.gross_pay = pay
     pay_check.deductions = deductions
     pay_check.disposition = payment_method.disposition
 
-    # TODO consider move this to the create_paycheck method
     payment_method.pay(pay_check)
   end
 end
