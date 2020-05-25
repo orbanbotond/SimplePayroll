@@ -13,7 +13,7 @@ describe Operations::ChangeName do
     Operations::ChangeName.new(id: id, name: 'Bob', database: database).execute
 
     employee = database.employee(id)
-    employee.wont_be_nil
-    employee.name.must_equal 'Bob'
+    _(employee).wont_be_nil
+    _(employee.name).must_equal 'Bob'
   end
 end

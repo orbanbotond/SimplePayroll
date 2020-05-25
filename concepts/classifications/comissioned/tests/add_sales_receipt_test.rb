@@ -19,13 +19,13 @@ describe Classifications::Comissioned::Operations::AddSalesReceipt do
     Classifications::Comissioned::Operations::AddSalesReceipt.new(id: id, date: Date.new(2005, 3, 30), amount: 500, database: database).execute
 
     employee = database.employee(id)
-    employee.wont_be_nil
+    _(employee).wont_be_nil
 
     classification = employee.classification
-    classification.must_be_kind_of Classifications::Comissioned::Classification
+    _(classification).must_be_kind_of Classifications::Comissioned::Classification
 
     receipts = classification.sales_receipts
-    receipts.first.amount.must_equal 500
-    receipts.first.date.must_equal Date.new(2005, 3, 30)
+    _(receipts.first.amount).must_equal 500
+    _(receipts.first.date).must_equal Date.new(2005, 3, 30)
   end
 end

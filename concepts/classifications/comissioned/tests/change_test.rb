@@ -14,16 +14,16 @@ describe Classifications::Comissioned::Operations::Change do
     operation.execute
 
     employee = database.employee(employee_id)
-    employee.wont_be_nil
+    _(employee).wont_be_nil
 
     classification = employee.classification
-    classification.wont_be_nil
-    classification.must_be_kind_of Classifications::Comissioned::Classification
-    classification.salary.must_be_close_to 1000.0, 0.001
-    classification.rate.must_be_close_to 3.0, 0.001
+    _(classification).wont_be_nil
+    _(classification).must_be_kind_of Classifications::Comissioned::Classification
+    _(classification.salary).must_be_close_to 1000.0, 0.001
+    _(classification.rate).must_be_close_to 3.0, 0.001
 
     schedule = employee.schedule
-    schedule.must_be_kind_of Schedules::Biweekly
+    _(schedule).must_be_kind_of Schedules::Biweekly
   end
   # TODO: add more tests for checking the before after changes
   # One hypothetical scenario would be to block the change if there are sales receipts submitted

@@ -16,9 +16,9 @@ describe Union::Operations::UnAffiliate do
     Union::Operations::UnAffiliate.new(id: id, database: database).execute
     employee = database.employee(id)
     affiliation = employee.affiliation
-    affiliation.must_be_kind_of Union::NoAffiliation
+    _(affiliation).must_be_kind_of Union::NoAffiliation
 
     member = database.union_member(member_id)
-    member.must_be_nil
+    _(member).must_be_nil
   end
 end

@@ -12,6 +12,6 @@ describe Operations::DeleteEmployee do
     Operations::DeleteEmployee.new(id: id, database: database).execute
 
     employee = database.employee(id)
-    employee.must_be_nil
+    _(employee).must_be_nil
   end
 end

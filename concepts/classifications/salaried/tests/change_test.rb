@@ -15,15 +15,15 @@ describe Classifications::Salaried::Operations::Change do
     operation.execute
 
     employee = database.employee(id)
-    employee.wont_be_nil
+    _(employee).wont_be_nil
 
     pay_check = employee.classification
-    pay_check.wont_be_nil
-    pay_check.must_be_kind_of Classifications::Salaried::Classification
-    pay_check.salary.must_be_close_to 1500.0, 0.001
+    _(pay_check).wont_be_nil
+    _(pay_check).must_be_kind_of Classifications::Salaried::Classification
+    _(pay_check.salary).must_be_close_to 1500.0, 0.001
 
     payment_schedule = employee.schedule
-    payment_schedule.must_be_kind_of Schedules::Monthly
+    _(payment_schedule).must_be_kind_of Schedules::Monthly
   end
   # TODO:
   # check if the new classification will processed in the next cycle only

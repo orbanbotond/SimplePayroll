@@ -15,15 +15,15 @@ describe Classifications::Hourly::Operations::Change do
     operation.execute
 
     employee = database.employee(id)
-    employee.wont_be_nil
+    _(employee).wont_be_nil
 
     pay_check = employee.classification
-    pay_check.wont_be_nil
-    pay_check.must_be_kind_of Classifications::Hourly::Classification
-    pay_check.rate.must_be_close_to 15.25, 0.001
+    _(pay_check).wont_be_nil
+    _(pay_check).must_be_kind_of Classifications::Hourly::Classification
+    _(pay_check.rate).must_be_close_to 15.25, 0.001
 
     ps = employee.schedule
-    ps.must_be_kind_of Schedules::Weekly
+    _(ps).must_be_kind_of Schedules::Weekly
   end
   # TODO: add more tests
   # One hypothetical scenario would be to block the change if there are time sheets submitted

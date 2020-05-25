@@ -18,13 +18,13 @@ describe Union::Operations::Affiliate do
     employee = database.employee(id)
 
     affiliation = employee.affiliation
-    affiliation.wont_be_nil
-    affiliation.must_be_kind_of Union::Affiliation
+    _(affiliation).wont_be_nil
+    _(affiliation).must_be_kind_of Union::Affiliation
 
-    affiliation.dues.must_be_close_to 99.42, 0.001
+    _(affiliation.dues).must_be_close_to 99.42, 0.001
 
     member = database.union_member(member_id)
-    member.wont_be_nil
-    member.id.must_equal employee.id
+    _(member).wont_be_nil
+    _(member.id).must_equal employee.id
   end
 end

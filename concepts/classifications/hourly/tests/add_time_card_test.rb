@@ -18,22 +18,22 @@ describe Classifications::Hourly::Operations::AddTimeCard do
     operation.execute
 
     employee = database.employee(id)
-    employee.wont_be_nil
+    _(employee).wont_be_nil
 
     classification = employee.classification
-    classification.must_be_kind_of Classifications::Hourly::Classification
+    _(classification).must_be_kind_of Classifications::Hourly::Classification
 
     timecard = classification.time_card(Date.new(2005, 7, 31))
-    timecard.wont_be_nil
-    timecard.hours.must_equal 8.0
-    timecard.date.must_equal Date.new(2005, 7, 31)
+    _(timecard).wont_be_nil
+    _(timecard.hours).must_equal 8.0
+    _(timecard.date).must_equal Date.new(2005, 7, 31)
 
     timecard = classification.time_card(Date.new(2005, 7, 30))
-    timecard.wont_be_nil
-    timecard.hours.must_equal 7.0
-    timecard.date.must_equal Date.new(2005, 7, 30)
+    _(timecard).wont_be_nil
+    _(timecard.hours).must_equal 7.0
+    _(timecard.date).must_equal Date.new(2005, 7, 30)
 
     timecard = classification.time_card(Date.new(2005, 7, 29))
-    timecard.must_be_nil
+    _(timecard).must_be_nil
   end
 end

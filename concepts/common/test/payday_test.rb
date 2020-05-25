@@ -19,11 +19,11 @@ describe Operations::CreatePaychecks do
       payday.execute
 
       pay_check = payday.get_paycheck(id)
-      pay_check.pay_date.must_equal pay_date
-      pay_check.gross_pay.must_be_close_to 1000.0, 0.001
-      pay_check.disposition.must_equal 'Hold'
-      pay_check.deductions.must_be_close_to 0.0, 0.001
-      pay_check.net_pay.must_be_close_to 1000.0, 0.001
+      _(pay_check.pay_date).must_equal pay_date
+      _(pay_check.gross_pay).must_be_close_to 1000.0, 0.001
+      _(pay_check.disposition).must_equal 'Hold'
+      _(pay_check.deductions).must_be_close_to 0.0, 0.001
+      _(pay_check.net_pay).must_be_close_to 1000.0, 0.001
     end
 
     it 'should not pay a salaried employee on wrong date' do
@@ -34,7 +34,7 @@ describe Operations::CreatePaychecks do
       payday = Operations::CreatePaychecks.new(pay_date, database)
       payday.execute
       pay_check = payday.get_paycheck(id)
-      pay_check.must_be_nil
+      _(pay_check).must_be_nil
     end
   end
 
@@ -88,7 +88,7 @@ describe Operations::CreatePaychecks do
 
       payday = Operations::CreatePaychecks.new(pay_date, database)
       payday.execute
-      payday.get_paycheck(id).must_be_nil
+      _(payday.get_paycheck(id)).must_be_nil
     end
 
     it 'should pay hourly employee two time cards' do
@@ -153,7 +153,7 @@ describe Operations::CreatePaychecks do
       pay_date = Date.new(2001, 11, 23)
       payday = Operations::CreatePaychecks.new(pay_date, database)
       payday.execute
-      payday.get_paycheck(id).must_be_nil
+      _(payday.get_paycheck(id)).must_be_nil
     end
   end
 
@@ -174,11 +174,11 @@ describe Operations::CreatePaychecks do
       payday.execute
 
       pay_check = payday.get_paycheck(id)
-      pay_check.wont_be_nil
-      pay_check.pay_date.must_equal pay_date
-      pay_check.gross_pay.must_be_close_to 8 * 15.24, 0.001
-      pay_check.disposition.must_equal 'Hold'
-      pay_check.deductions.must_be_close_to 9.42 + 19.42, 0.001
+      _(pay_check).wont_be_nil
+      _(pay_check.pay_date).must_equal pay_date
+      _(pay_check.gross_pay).must_be_close_to 8 * 15.24, 0.001
+      _(pay_check.disposition).must_equal 'Hold'
+      _(pay_check.deductions).must_be_close_to 9.42 + 19.42, 0.001
     end
 
     it 'should deduct service charges correct when spanning multiple pay periods' do
@@ -201,10 +201,10 @@ describe Operations::CreatePaychecks do
       payday.execute
 
       pay_check = payday.get_paycheck(id)
-      pay_check.wont_be_nil
-      pay_check.gross_pay.must_be_close_to 8.0 * 15.25, 0.001
-      pay_check.deductions.must_be_close_to 9.42 + 19.42, 0.001
-      pay_check.net_pay.must_be_close_to 8.0 * 15.25 - 9.42 - 19.42, 0.001
+      _(pay_check).wont_be_nil
+      _(pay_check.gross_pay).must_be_close_to 8.0 * 15.25, 0.001
+      _(pay_check.deductions).must_be_close_to 9.42 + 19.42, 0.001
+      _(pay_check.net_pay).must_be_close_to 8.0 * 15.25 - 9.42 - 19.42, 0.001
     end
   end
 
@@ -218,11 +218,11 @@ describe Operations::CreatePaychecks do
 
   def validate_paycheck(payday, id, pay_date, pay)
     pay_check = payday.get_paycheck(id)
-    pay_check.wont_be_nil
-    pay_check.pay_date.must_equal pay_date
-    pay_check.gross_pay.must_be_close_to pay, 0.001
-    pay_check.disposition.must_equal 'Hold'
-    pay_check.deductions.must_be_close_to 0.0, 0.001
-    pay_check.net_pay.must_be_close_to pay, 0.001
+    _(pay_check).wont_be_nil
+    _(pay_check.pay_date).must_equal pay_date
+    _(pay_check.gross_pay).must_be_close_to pay, 0.001
+    _(pay_check.disposition).must_equal 'Hold'
+    _(pay_check.deductions).must_be_close_to 0.0, 0.001
+    _(pay_check.net_pay).must_be_close_to pay, 0.001
   end
 end
